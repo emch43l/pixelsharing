@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+
+    <div class="flex justify-center mt-20">
+        <div class="w-1/2 max-w-xs">
+            <h1 class="text-center text-2xl font-bold">Login</h1>
+            <div class="mt-2 text-center">
+                <span class="text-xs">Dont have an account?</span><br>
+                <span>Regiter</span>
+                <span> <a class="text-secondary font-bold" href="{{ path('app_register') }}">here</a></span>
+            </div>
+            <form method="post">
+                {#    <div class="card w-96 bg-base-100 shadow-xl">#}
+                {#        <div class="card-body">#}
+                {#            <h2 class="card-title">Card title!</h2>#}
+                {#            <p>If a dog chews shoes whose shoes does he choose?</p>#}
+                {#            <div class="card-actions justify-end">#}
+                {#                <button class="btn btn-primary">Buy Now</button>#}
+                {#            </div>#}
+                {#        </div>#}
+                {#    </div>#}
+
+                    {% if error %}
+                        <div class="alert alert-error shadow-lg mt-5">
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                <span>{{ error.messageKey|trans(error.messageData, 'security') }}</span>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                {#    {% if app.user %}#}
+                {#        <div class="mb-3">#}
+                {#            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>#}
+                {#        </div>#}
+                {#    {% endif %}#}
+
+
+
+                {#    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>#}
+                {#    <label for="inputUsername">Username</label>#}
+                {#    <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>#}
+                {#    <label for="inputPassword">Password</label>#}
+                {#    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>#}
+                <div class="form-control w-full mt-5">
+                    <label class="label">
+                        <span class="label-text">Username</span>
+                        <span class="label-text-alt">Top Right label</span>
+                    </label>
+                    <input  name="username" type="text" placeholder="Type username here" class="input input-bordered w-full" />
+                </div>
+                <div class="form-control w-full mt-5">
+                    <label class="label">
+                        <span class="label-text">Password</span>
+                        <span class="label-text-alt">Top Right label</span>
+                    </label>
+                    <input  name="password" type="password" placeholder="Type password here" class="input input-bordered w-full" />
+                </div>
+                <input type="hidden" name="_csrf_token"
+                       value="{{ csrf_token('authenticate') }}"
+                >
+
+                {#        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.#}
+                {#        See https://symfony.com/doc/current/security/remember_me.html#}
+
+                {#        <div class="checkbox mb-3">#}
+                {#            <label>#}
+                {#                <input type="checkbox" name="_remember_me"> Remember me#}
+                {#            </label>#}
+                {#        </div>#}
+
+                <div class="mt-12 flex justify-center">
+                    <button class="btn btn-active btn-primary" type="submit">Sumbit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

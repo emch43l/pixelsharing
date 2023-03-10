@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+<div class="flex justify-center mt-20">
+    <div class="w-1/2 max-w-xs">
+        <h1 class="text-center text-2xl font-bold">Register new account</h1>
+        <div class="mt-2 text-center">
+            <span class="text-xs">Already have an account?</span><br>
+            <span>Login</span>
+            <span> <a class="text-secondary font-bold" href="{{ path('app_login') }}">here</a></span>
+        </div>
+        {{ form_start(form) }}
+
+        <div class="form-control w-full mt-8">
+            <label class="label">
+                <span class="label-text">Username</span>
+                <span class="label-text-alt">*Required</span>
+            </label>
+             {{ form_widget(form.username, {'attr' : {
+                 'class' :  'input input-bordered w-full',
+                 'placeholder' : 'Type username here'
+             }}) }}
+        </div>
+        <div class="form-control w-full mt-10">
+            <label class="label">
+                <span class="label-text">Password</span>
+                <span class="label-text-alt">*Required</span>
+            </label>
+            {{ form_widget(form.plainPassword.first, {'attr' : {
+                'class' : 'input input-bordered w-full',
+                'placeholder' : 'Type password here'
+            }}) }}
+        </div>
+        <div class="form-control w-full mt-5">
+            <label class="label">
+                <span class="label-text">Repeat password</span>
+                <span class="label-text-alt">*Required</span>
+            </label>
+            {{ form_widget(form.plainPassword.second, {'attr' : {
+                'class' :  'input input-bordered w-full',
+                'placeholder' : 'Repeat password here'
+            }}) }}
+        </div>
+        <div class="mt-16 flex justify-center">
+            <button class="btn btn-active btn-primary" type="submit">Register</button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}
