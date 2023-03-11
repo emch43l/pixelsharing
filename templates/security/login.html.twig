@@ -2,17 +2,18 @@
 
 {% block title %}Log in!{% endblock %}
 
-{% block body %}
+{% block navbar %}
 
-    <div class="flex justify-center mt-20">
-        <div class="w-1/2 max-w-xs">
-            <h1 class="text-center text-2xl font-bold">Login</h1>
-            <div class="mt-2 text-center">
-                <span class="text-xs">Dont have an account?</span><br>
-                <span>Regiter</span>
-                <span> <a class="text-secondary font-bold" href="{{ path('app_register') }}">here</a></span>
+{% endblock %}
+
+{% block body %}
+    <div class="w-full max-w-sm m-auto mt-20">
+            <div>
+                {{ include('logo.html.twig', {'center' : true}) }}
             </div>
-            <form method="post">
+{#            <h1 class="text-center text-accent-content text-2xl font-bold mt-10">Login</h1>#}
+
+            <form method="post" class="mt-10">
                 {#    <div class="card w-96 bg-base-100 shadow-xl">#}
                 {#        <div class="card-body">#}
                 {#            <h2 class="card-title">Card title!</h2>#}
@@ -71,11 +72,14 @@
                 {#                <input type="checkbox" name="_remember_me"> Remember me#}
                 {#            </label>#}
                 {#        </div>#}
-
+                <div class="mt-5 text-sm font-light text-center">
+                    <span >Dont have an account? Register</span>
+                    <span> <a class="text-secondary font-bold" href="{{ path('app_register') }}">here</a> !</span>
+                </div>
                 <div class="mt-12 flex justify-center">
+                    <a class="btn mr-3" href="{{ path('app_home') }}">Back</a>
                     <button class="btn btn-active btn-primary" type="submit">Sumbit</button>
                 </div>
             </form>
-        </div>
-    </div>
+
 {% endblock %}

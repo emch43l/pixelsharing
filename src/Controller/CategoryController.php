@@ -21,9 +21,12 @@ class CategoryController extends AbstractController
 
     }
 
+    #[Route('/','app_category_index')]
     public function list(Request $request) : Response
     {
-
+        return $this->render('category/listCategory.html.twig', [
+           'categories' => $this->manager->getRepository(Category::class)->findAll()
+        ]);
     }
 
     #[Route('/create','app_category_create')]
@@ -35,7 +38,7 @@ class CategoryController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
-            $repo = $this->manager->getRepository(CategoryRepository::class);
+            $repo = $this->manager->getRepository(Category::class);
             $repo->save($category,true);
 
             return $this->render('category/createCategory.html.twig',[
@@ -44,7 +47,15 @@ class CategoryController extends AbstractController
         }
 
         return $this->render('category/createCategory.html.twig',[
+            'error' => $form->getErrors(true,true),
             'form' => $form->createView()
+        ]);
+    }
+
+    #[Route('/create','app_category_edit')]
+    public function editCategory(Request $request) : Response
+    {
+        return $this->render('category/createCategory.html.twig',[
         ]);
     }
 }

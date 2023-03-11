@@ -1,31 +1,75 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
-
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div>
+        <div class="px-28">
+            <div class="mt-24">
+                <div>
+                    <div class="flex justify-between items-end">
+                        <div>
+                            <span class="text-5xl font-bold text-accent-content">Photos</span>
+                        </div>
+                        <div class="text-right">
+                            <div>
+                                <span class="text-3xl font-semibold text-accent-content">1500</span>
+                            </div>
+                            <div class="-mt-1">
+                                <span class="text-sm opacity-50">total uploads</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-5">
+                    <div class="bg-base-300 rounded-md p-4">
+                        <form method="get">
+                            <div class="flex">
+                                {% for category in categories %}
+                                    <button type="submit" name="category" class="mx-2 px-5 py-2" value="{{ category.uuid }}" >
+                                        {{ category.name }}
+                                    </button>
+                                {% endfor %}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="mt-10">
+                    <section>
+                        <div class="flex">
+                            <div class="overflow-hidden rounded-md shadow-xl">
+                                <div class="w-72 h-72 relative">
+                                    <img class="object-cover w-full h-full" src="{{ asset('build/images/test.979a2049.jpg') }}">
+                                    <div class="absolute inset-0">
+                                        <div class="flex justify-between inset-x-0 absolute mt-3">
+                                            <div class="ml-3">
+                                                <div class="text-lg text-center">
+                                                    <i class="far fa-heart text-secondary"></i>
+                                                    <span class="ml-1 text-sm font-semibold text-accent-content">
+                                                        120
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="mr-3">
+                                                <span class="text-sm font-semibold opacity-50">10/03/2023</span>
+                                            </div>
+                                        </div>
+                                        <div class="flex justify-center inset-x-0 bottom-0 absolute pb-2 bg-gradient-to-t from-black to-transparent flex-wrap">
+                                            <div class="w-full text-center">
+                                                <span class="px-4 py-0.5 font-semibold text-accent-content text-xs bg-base-300 rounded-md">Natura</span>
+                                            </div>
+                                            <div class="mt-2">
+                                                <span class="font-bold text-lg text-accent-content">Sample text</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
 
-    <div class="hero min-h-screen bg-base-200">
-        <div class="hero-content flex-col lg:flex-row-reverse">
-            <img src="/images/stock/photo-1635805737707-575885ab0820.jpg" class="max-w-sm rounded-lg shadow-2xl" />
-            <div>
-                <h1 class="text-5xl font-bold">Box Office News!</h1>
-                <p class="py-6">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
-                <button class="btn btn-primary">Get Started</button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
             </div>
         </div>
     </div>
-
-{#<div class="example-wrapper">#}
-{#    <h1>Hello {{ controller_name }}! ✅</h1>#}
-
-{#    This friendly message is coming from:#}
-{#    <ul>#}
-{#        <li>Your controller at <code><a href="{{ 'C:/Users/EMch43l/Documents/Wprowadzenie do technologii webowych/Projekt/app/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a></code></li>#}
-{#        <li>Your template at <code><a href="{{ 'C:/Users/EMch43l/Documents/Wprowadzenie do technologii webowych/Projekt/app/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a></code></li>#}
-{#    </ul>#}
-{#</div>#}
 {% endblock %}

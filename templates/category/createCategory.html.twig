@@ -1,20 +1,20 @@
-{% extends 'base.html.twig' %}
+{% extends '../body.html.twig' %}
 
-{% block body %}
+{% block content %}
 
-    <div class="flex justify-center mt-20">
-        <div class="w-1/2 max-w-xs">
-            <h1 class="text-center text-2xl font-bold">Register new account</h1>
-            <div class="mt-2 text-center">
-                <span class="text-xs">Already have an account?</span><br>
-                <span>Login</span>
-                <span> <a class="text-secondary font-bold" href="{{ path('app_login') }}">here</a></span>
-            </div>
+            {% if error.count %}
+                <div class="alert alert-error shadow-lg mt-5">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <span class="text-sm">{{ error.current.message }}</span>
+                    </div>
+                </div>
+            {% endif %}
             {{ form_start(form) }}
 
             <div class="form-control w-full mt-8">
                 <label class="label">
-                    <span class="label-text">Username</span>
+                    <span class="label-text">Category name</span>
                     <span class="label-text-alt">*Required</span>
                 </label>
                 {{ form_widget(form.name, {'attr' : {
@@ -28,7 +28,6 @@
             </div>
 
             {{ form_end(form) }}
-        </div>
-    </div>
+
 
 {% endblock %}

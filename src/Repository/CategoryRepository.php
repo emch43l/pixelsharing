@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * @extends ServiceEntityRepository<Category>
@@ -28,6 +29,18 @@ class CategoryRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function edit(Category $entity): void
+    {
+        $category = $this->findByUuid($entity->getUuid());
+        $category->setName($entity->getName());
+        $this->save($category,true);
+    }
+
+    public function findByUuid(Uuid $id): Category|null
+    {
+        return $this->findOneBy(['uuid' => $id]);
     }
 
     public function remove(Category $entity, bool $flush = false): void

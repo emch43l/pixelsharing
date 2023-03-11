@@ -1,0 +1,26 @@
+
+
+<div class="mt-8">
+    <div class="flex justify-between items-center px-12">
+        {{ include('logo.html.twig') }}
+        <div>
+            <div class="flex justify-evenly">
+                {% if user %}
+                    <div class="mr-3">
+                        <a class="btn btn-outline border-0" href="">Register</a>
+                    </div>
+                    <div>
+                        <a class="btn" href="{{ path('app_logout') }}">Logout</a>
+                    </div>
+                {% else %}
+                    <div class="mr-3">
+                        <a class="btn btn-outline border-0" href="{{ path('app_register') }}">Register</a>
+                    </div>
+                    <div>
+                        <a class="btn" href="{{ path('app_login') }}">Login</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
