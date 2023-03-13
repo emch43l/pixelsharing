@@ -10,9 +10,16 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 class ImageFixture extends Fixture implements DependentFixtureInterface
 {
 
-    /**
-     * @inheritDoc
-     */
+    public const IMAGES_REFERENCE_PREFIX = 'image-';
+    public const IMAGES_NUMBER = 20;
+
+    public static function getReferences()
+    {
+        for($i = 0; $i < self::IMAGES_NUMBER; $i++) {
+            yield self::IMAGES_REFERENCE_PREFIX.$i;
+        }
+    }
+
     public function load(ObjectManager $manager)
     {
         $cat1 = $this->getReference(CategoryFixtures::NATURE_CATEGORY);
@@ -27,13 +34,16 @@ class ImageFixture extends Fixture implements DependentFixtureInterface
             $cat3
         ];
 
-        for($i = 0; $i < 20; $i++) {
+        foreach (self::getReferences() as $value) {
             $image = new Image();
             $image->setUser($user);
             $image->setCategory($categories[array_rand($categories)]);
             $image->setImageName('sampleImage');
+            $this->addReference($value,$image);
             $manager->persist($image);
         }
+
+
 
         $manager->flush();
 

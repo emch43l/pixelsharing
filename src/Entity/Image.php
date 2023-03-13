@@ -53,6 +53,20 @@ class Image
         $this->uuid = Uuid::v4();
     }
 
+    public function getPositiveVotesNumber() : int
+    {
+        return $this->votes->filter(function (Vote $vote) {
+           return $vote->getReaction() === true;
+        })->count();
+    }
+
+    public function getNegativeVotesNumber() : int
+    {
+        return $this->votes->filter(function (Vote $vote) {
+            return $vote->getReaction() === false;
+        })->count();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

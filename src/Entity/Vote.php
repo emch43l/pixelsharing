@@ -14,7 +14,7 @@ class Vote
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?bool $relation = null;
+    private ?bool $reaction = null;
 
     #[ORM\ManyToOne(inversedBy: 'votes')]
     #[ORM\JoinColumn(nullable: false)]
@@ -29,14 +29,14 @@ class Vote
         return $this->id;
     }
 
-    public function isRelation(): ?bool
+    public function getReaction(): ?bool
     {
-        return $this->relation;
+        return $this->reaction;
     }
 
-    public function setRelation(bool $relation): self
+    public function setReaction(bool $reaction): self
     {
-        $this->relation = $relation;
+        $this->reaction = $reaction;
 
         return $this;
     }
