@@ -55,7 +55,7 @@
                                         </div>
                                         <div class="flex justify-center inset-x-0 bottom-0 absolute pb-2 bg-gradient-to-t from-black to-transparent flex-wrap">
                                             <div class="w-full text-center">
-                                                <span class="px-4 py-0.5 font-semibold text-accent-content text-xs bg-base-300 rounded-md">Natura</span>
+                                                <span class="px-4 py-0.5 font-semibold text-accent-content text-xs bg-base-300 rounded-md">{{ image.category.name }}</span>
                                             </div>
                                             <div class="mt-2">
                                                 <span class="font-bold text-lg text-accent-content">Sample text</span>
@@ -63,8 +63,54 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div>
-
+                                <div class="bg-base-100">
+                                    <div class="p-4">
+                                        <div class="flex justify-between">
+                                            <div class="flex">
+                                                <div class="mr-4">
+                                                    <div class="h-14 w-14 rounded-md overflow-hidden">
+                                                        <img class="w-full h-full object-cover" src="{{ asset('build/images/userProfileImage.abac95e5.jpg') }}">
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div>
+                                                        <span class="text-accent-content font-semibold">{{ image.user.username }}</span>
+                                                    </div>
+                                                    <div class="text-xs">
+                                                        <div class="flex">
+                                                            <div class="text-left text-accent-content opacity-90">
+                                                                <div>
+                                                                    <span>323</span>
+                                                                </div>
+                                                                <div>
+                                                                    <span>32</span>
+                                                                </div>
+                                                            </div>
+                                                            <div>
+                                                                <div class="mr-1 ml-1"></div>
+                                                            </div>
+                                                            <div class="opacity-70">
+                                                                <div>
+                                                                    <span>Likes</span>
+                                                                </div>
+                                                                <div>
+                                                                    <span>Shares</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="h-full w-1 bg-black opacity-10 rounded-md"></div>
+                                            </div>
+                                            <div class="flex justify-center items-center">
+                                                <div class="h-full">
+                                                    <button class="px-5 rounded-md h-full font-bold text-lg text-accent-content bg-gradient-to-r from-cyan-400 to-blue-500">Like</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             {%  endfor %}

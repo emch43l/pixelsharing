@@ -35,8 +35,6 @@ class HomeController extends AbstractController
         $images = $data->getItems();
 
 
-//        echo $form->getErrors(true,true)->current()->getMessage();
-
         return $this->render('home/index.html.twig', [
             'images' => $images,
             'user' => $this->getUser(),
