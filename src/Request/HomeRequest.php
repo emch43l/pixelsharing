@@ -1,14 +1,12 @@
 <?php
 
-namespace App\RequestDataTemplate;
+namespace App\Request;
 
 use Symfony\Component\Uid\Uuid;
 
-class HomeTemplate
+class HomeRequest extends PaginationRequest
 {
     public ?Uuid $category = null;
-
-    public ?int $page = null;
 
     /**
      * @return Uuid|null
@@ -25,22 +23,5 @@ class HomeTemplate
     {
         $this->category = $category;
     }
-
-    /**
-     * @return int|null
-     */
-    public function getPage(): int|null
-    {
-        return $this->page;
-    }
-
-    /**
-     * @param int $page
-     */
-    public function setPage(int $page): void
-    {
-        $this->page = $page;
-    }
-
 
 }

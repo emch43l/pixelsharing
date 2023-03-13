@@ -4,13 +4,10 @@ namespace App\Service;
 
 use App\Entity\Category;
 use App\Entity\Image;
-use App\RequestDataTemplate\HomeTemplate;
-use Doctrine\ORM\EntityManager;
+use App\Request\HomeRequest;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Query;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Component\HttpFoundation\Request;
 
 class ImageService
 {
@@ -23,10 +20,8 @@ class ImageService
 
     }
 
-    public function getImages(HomeTemplate $request) : PaginationInterface
+    public function getImages(HomeRequest $request) : PaginationInterface
     {
-        $imagesQuery = null;
-
         $cat_Repo = $this->manager->getRepository(Category::class);
         $img_Repo = $this->manager->getRepository(Image::class);
 

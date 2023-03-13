@@ -3,8 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Category;
-use App\Form\HomeType;
-use App\RequestDataTemplate\HomeTemplate;
+use App\Form\Request\HomeRequestType;
+use App\Form\Request\PaginationRequestType;
+use App\Request\HomeRequest;
 use App\Service\ImageService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,16 +27,15 @@ class HomeController extends AbstractController
     #[Route('/home', name: 'app_home')]
     public function index(Request $request): Response
     {
-        $images = [];
-        $template = new HomeTemplate();
-        $form = $this->createForm(HomeType::class,$template);
+        $template = new HomeRequest();
+        $form = $this->createForm(HomeRequestType::class,$template);
         $form->submit($request->query->all());
 
-        if($form->isSubmitted() && $form->isValid())
-        {
-            $data = $this->imageService->getImages($template);
-            $images = $data->getItems();
-        }
+        $data = $this->imageService->getImages($template);
+        $images = $data->getItems();
+
+
+//        echo $form->getErrors(true,true)->current()->getMessage();
 
         return $this->render('home/index.html.twig', [
             'images' => $images,

@@ -34,8 +34,9 @@
                 </div>
                 <div class="mt-10">
                     <section>
-                        <div class="flex">
-                            <div class="overflow-hidden rounded-md shadow-xl">
+                        <div class="grid grid-cols-1 home-md:grid-cols-2 home-lg:grid-cols-3 justify-items-center gap-6">
+                            {% for image in images %}
+                            <div class="overflow-hidden rounded-md shadow-xl w-72">
                                 <div class="w-72 h-72 relative">
                                     <img class="object-cover w-full h-full" src="{{ asset('build/images/test.979a2049.jpg') }}">
                                     <div class="absolute inset-0">
@@ -66,13 +67,9 @@
 
                                 </div>
                             </div>
+                            {%  endfor %}
                         </div>
                     </section>
-                    {% for image in images %}
-                        <div>
-                            {{ image.imageName }}
-                        </div>
-                    {%  endfor %}
                 </div>
             </div>
         </div>

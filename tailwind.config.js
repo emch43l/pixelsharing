@@ -5,6 +5,10 @@ module.exports = {
     "./templates/**/*.html.twig",
   ],
   theme: {
+    screens: {
+      'home-md' : '800px',
+      'home-lg' : '1080px'
+    },
     extend: {},
   },
   plugins: [
