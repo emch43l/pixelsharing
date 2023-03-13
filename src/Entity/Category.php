@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CategoryRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Uid\Uuid;
@@ -22,9 +24,13 @@ class Category
     #[ORM\Column(type: 'uuid')]
     private ?Uuid $uuid = null;
 
+    #[ORM\OneToMany(mappedBy: 'Category', targetEntity: Image::class)]
+    private Collection $images;
+
     public function __construct()
     {
         $this->uuid = Uuid::v4();
+        $this->images = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -52,6 +58,36 @@ class Category
     public function setUuid(Uuid $uuid): self
     {
         $this->uuid = $uuid;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Image>
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(Image $image): self
+    {
+        if (!$this->images->contains($image)) {
+            $this->images->add($image);
+            $image->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Image $image): self
+    {
+        if ($this->images->removeElement($image)) {
+            // set the owning side to null (unless already changed)
+            if ($image->getCategory() === $this) {
+                $image->setCategory(null);
+            }
+        }
 
         return $this;
     }

@@ -2,8 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Category;
 use App\Entity\Image;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -39,20 +41,24 @@ class ImageRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Image[] Returns an array of Image objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('i')
-//            ->andWhere('i.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('i.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return Query
+     */
+    public function findByCategory(Category $category): Query
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.Category = :category')
+            ->setParameter('category', $category)
+            ->orderBy('i.imageName', 'ASC')
+            ->getQuery();
+    }
+
+    public function getAll(): Query
+    {
+        return $this->createQueryBuilder('i')
+            ->orderBy('i.updatedAt')
+            ->getQuery();
+    }
 
 //    public function findOneBySomeField($value): ?Image
 //    {

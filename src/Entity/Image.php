@@ -37,6 +37,13 @@ class Image
     #[ORM\Column(type: 'uuid')]
     private ?Uuid $uuid = null;
 
+    #[ORM\ManyToOne(inversedBy: 'images')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $User = null;
+
+    #[ORM\ManyToOne(inversedBy: 'images')]
+    private ?Category $Category = null;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -162,6 +169,30 @@ class Image
     public function setUuid(Uuid $uuid): self
     {
         $this->uuid = $uuid;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->User;
+    }
+
+    public function setUser(?User $User): self
+    {
+        $this->User = $User;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->Category;
+    }
+
+    public function setCategory(?Category $Category): self
+    {
+        $this->Category = $Category;
 
         return $this;
     }

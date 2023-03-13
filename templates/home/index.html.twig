@@ -68,6 +68,11 @@
                             </div>
                         </div>
                     </section>
+                    {% for image in images %}
+                        <div>
+                            {{ image.imageName }}
+                        </div>
+                    {%  endfor %}
                 </div>
             </div>
         </div>
