@@ -6,6 +6,7 @@ use App\Entity\Category;
 use App\Entity\Image;
 use App\Entity\Vote;
 use App\Repository\ImageRepository;
+use App\Repository\VoteRepository;
 use App\Request\AddVoteRequest;
 use App\Request\HomeRequest;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,6 +19,7 @@ class ImageService
     private const PAGELIMIT = 18;
 
     private ImageRepository $imageRepository;
+    private VoteRepository $voteRepository;
 
     public function __construct(
         private EntityManagerInterface $manager,
@@ -26,6 +28,7 @@ class ImageService
     )
     {
         $this->imageRepository = $this->manager->getRepository(Image::class);
+        $this->voteRepository = $this->manager->getRepository(Vote::class);
     }
 
     public function addVote(AddVoteRequest $request) : bool
@@ -36,7 +39,7 @@ class ImageService
         if($image === null)
             return false;
 
-        $existingVote = $this->manager->getRepository(Vote::class)->getVoteByImageAndUser(
+        $existingVote = $this->voteRepository->getVoteByImageAndUser(
             $image,$user
         );
 
