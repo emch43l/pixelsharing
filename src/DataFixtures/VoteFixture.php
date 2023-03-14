@@ -16,7 +16,8 @@ class VoteFixture extends Fixture implements DependentFixtureInterface
             for($i = 0; $i < 10; $i ++) {
                 $vote = new Vote();
                 $vote->setImage($image);
-                $vote->setReaction(!(rand(0,1) == 0));
+                $vote->setReaction(false);
+//                $vote->setReaction(!(rand(0,1) == 0));
                 $vote->setUser(
                     $this->getReference(UserFixtures::ADMIN_USER)
                 );

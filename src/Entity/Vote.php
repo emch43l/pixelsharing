@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\VoteRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: VoteRepository::class)]
 class Vote
 {

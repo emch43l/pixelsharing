@@ -4,20 +4,59 @@ namespace App\Service;
 
 use App\Entity\Category;
 use App\Entity\Image;
+use App\Entity\Vote;
+use App\Repository\ImageRepository;
+use App\Request\AddVoteRequest;
 use App\Request\HomeRequest;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\Security\Core\Security;
 
 class ImageService
 {
     private const PAGELIMIT = 18;
+
+    private ImageRepository $imageRepository;
+
     public function __construct(
         private EntityManagerInterface $manager,
-        private PaginatorInterface $paginator
+        private PaginatorInterface $paginator,
+        private Security $security
     )
     {
+        $this->imageRepository = $this->manager->getRepository(Image::class);
+    }
 
+    public function addVote(AddVoteRequest $request) : bool
+    {
+        $user = $this->security->getUser();
+
+        $image = $this->imageRepository->findOneBy(['uuid' => $request->getImage()]);
+        if($image === null)
+            return false;
+
+        $existingVote = $this->manager->getRepository(Vote::class)->getVoteByImageAndUser(
+            $image,$user
+        );
+
+        if($existingVote !== null)
+        {
+            $existingVote->setReaction($request->getType());
+            $this->manager->persist($existingVote);
+        }
+        else
+        {
+            $vote = new Vote();
+            $vote->setUser($user);
+            $vote->setReaction($request->getType());
+            $image->addVote($vote);
+        }
+
+        $this->manager->persist($image);
+        $this->manager->flush();
+
+        return true;
     }
 
     public function getImages(HomeRequest $request) : PaginationInterface

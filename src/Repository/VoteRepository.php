@@ -2,9 +2,12 @@
 
 namespace App\Repository;
 
+use App\Entity\Image;
+use App\Entity\User;
 use App\Entity\Vote;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @extends ServiceEntityRepository<Vote>
@@ -37,6 +40,18 @@ class VoteRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function getVoteByImageAndUser(Image $image, UserInterface $user) : ?Vote
+    {
+        return $this->createQueryBuilder('q')
+            ->andWhere('q.User = :user')
+            ->andWhere('q.Image = :image')
+            ->setParameter('user',$user)
+            ->setParameter('image',$image)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
 //    /**

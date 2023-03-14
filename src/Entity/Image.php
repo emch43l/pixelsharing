@@ -10,6 +10,7 @@ use Symfony\Component\Uid\Uuid;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
 
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
 class Image
 {
@@ -21,7 +22,7 @@ class Image
     #[ORM\OneToMany(mappedBy: 'image', targetEntity: Comment::class, orphanRemoval: true)]
     private Collection $comments;
 
-    #[ORM\OneToMany(mappedBy: 'Image', targetEntity: Vote::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'Image', targetEntity: Vote::class, orphanRemoval: true, cascade: ['persist'])]
     private Collection $votes;
 
     #[Vich\UploadableField(mapping: 'products', fileNameProperty: 'imageName', size: 'imageSize')]
@@ -46,25 +47,19 @@ class Image
     #[ORM\ManyToOne(inversedBy: 'images')]
     private ?Category $Category = null;
 
+    #[ORM\Column]
+    private ?int $positiveVotes = null;
+
+    #[ORM\Column]
+    private ?int $negativeVotes = null;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->votes = new ArrayCollection();
         $this->uuid = Uuid::v4();
-    }
-
-    public function getPositiveVotesNumber() : int
-    {
-        return $this->votes->filter(function (Vote $vote) {
-           return $vote->getReaction() === true;
-        })->count();
-    }
-
-    public function getNegativeVotesNumber() : int
-    {
-        return $this->votes->filter(function (Vote $vote) {
-            return $vote->getReaction() === false;
-        })->count();
+        $this->negativeVotes = 0;
+        $this->positiveVotes = 0;
     }
 
     public function getId(): ?int
@@ -140,6 +135,7 @@ class Image
         if (!$this->votes->contains($vote)) {
             $this->votes->add($vote);
             $vote->setImage($this);
+            $this->updatedAt = new \DateTimeImmutable();
         }
 
         return $this;
@@ -151,6 +147,7 @@ class Image
             // set the owning side to null (unless already changed)
             if ($vote->getImage() === $this) {
                 $vote->setImage(null);
+                $this->updatedAt = new \DateTimeImmutable();
             }
         }
 
@@ -221,5 +218,29 @@ class Image
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    public function getPositiveVotes(): ?int
+    {
+        return $this->positiveVotes;
+    }
+
+    public function setPositiveVotes(int $positiveVotes): self
+    {
+        $this->positiveVotes = $positiveVotes;
+
+        return $this;
+    }
+
+    public function getNegativeVotes(): ?int
+    {
+        return $this->negativeVotes;
+    }
+
+    public function setNegativeVotes(int $negativeVotes): self
+    {
+        $this->negativeVotes = $negativeVotes;
+
+        return $this;
     }
 }
