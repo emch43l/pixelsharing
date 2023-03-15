@@ -15,8 +15,10 @@ class PaginationRequestType extends AbstractType
     {
         $builder
             ->add('page', NumberType::class, [
+                'input' => 'string',
                 'required' => false,
-                'empty_data' => 1,
+                'empty_data' => '1',
+                'data' => '1'
             ])
             ->get('page')
                 ->addModelTransformer(new CallbackTransformer(

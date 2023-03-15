@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {% if error.count > 0 %}
+
+        <div>
+            {{ error.current.message }}
+        </div>
+
+    {% endif %}
+
+    {{ form(form) }}
+
+    {{ form_end(form) }}
+
+{% endblock %}

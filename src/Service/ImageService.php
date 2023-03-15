@@ -5,8 +5,10 @@ namespace App\Service;
 use App\Entity\Category;
 use App\Entity\Image;
 use App\Entity\Vote;
+use App\Repository\CategoryRepository;
 use App\Repository\ImageRepository;
 use App\Repository\VoteRepository;
+use App\Request\CreateImageRequest;
 use App\Request\AddVoteRequest;
 use App\Request\HomeRequest;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,6 +22,7 @@ class ImageService
 
     private ImageRepository $imageRepository;
     private VoteRepository $voteRepository;
+    private CategoryRepository $categoryRepository;
 
     public function __construct(
         private EntityManagerInterface $manager,
@@ -27,8 +30,17 @@ class ImageService
         private Security $security
     )
     {
+        $this->categoryRepository = $this->manager->getRepository(Category::class);
         $this->imageRepository = $this->manager->getRepository(Image::class);
         $this->voteRepository = $this->manager->getRepository(Vote::class);
+    }
+
+    public function createNew(CreateImageRequest $request) : void
+    {
+        $image = $request->MapTo();
+        $image->setUser($this->security->getUser());
+        $this->manager->persist($image);
+        $this->manager->flush();
     }
 
     public function addVote(AddVoteRequest $request) : bool

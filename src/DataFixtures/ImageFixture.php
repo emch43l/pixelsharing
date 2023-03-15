@@ -37,6 +37,7 @@ class ImageFixture extends Fixture implements DependentFixtureInterface
         foreach (self::getReferences() as $value) {
             $image = new Image();
             $image->setUser($user);
+            $image->setTitle('sample title 123');
             $image->setCategory($categories[array_rand($categories)]);
             $image->setImageName('sampleImage');
             $this->addReference($value,$image);
