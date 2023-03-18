@@ -56,7 +56,7 @@ class ImageRepository extends ServiceEntityRepository
     public function getAll(): Query
     {
         return $this->createQueryBuilder('i')
-            ->orderBy('i.updatedAt')
+            ->orderBy('i.updatedAt','DESC')
             ->getQuery();
     }
 

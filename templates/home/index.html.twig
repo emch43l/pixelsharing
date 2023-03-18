@@ -21,12 +21,14 @@
                 </div>
                 <div class="mt-5">
                     <div class="bg-base-300 rounded-md p-4">
-                        <form method="get">
+                        <form method="get" id="home-form">
+                            <input type="hidden" name="page" value="1" id="page-number-input">
+                            <input type="hidden" name="category" id="image-category" value="{{ current_category }}">
                             <div class="flex">
                                 {% for category in categories %}
-                                    <button type="submit" name="category" class="mx-2 px-5 py-2" value="{{ category.uuid }}" >
-                                        {{ category.name }}
-                                    </button>
+                                    <div>
+                                        <input value="{{ category.name }}" type="button" class="mx-2 px-5 py-2" data-image-category="{{ category.uuid }}" />
+                                    </div>
                                 {% endfor %}
                             </div>
                         </form>
@@ -44,7 +46,7 @@
                                             <div class="ml-3">
                                                 <div class="text-lg text-center">
                                                     <i class="far fa-heart text-secondary"></i>
-                                                    <span class="ml-1 text-sm font-semibold text-accent-content">
+                                                    <span class="ml-1 text-sm font-semibold text-accent-content" data-image-votes-identifier="{{ image.uuid }}" data-image-votes="{{ image.positiveVotes }}">
                                                         {{ image.positiveVotes }}
                                                     </span>
                                                 </div>
@@ -106,11 +108,8 @@
                                             </div>
                                             <div class="flex justify-center items-center">
                                                 <div class="h-full">
-                                                    <form class="h-full" action="{{ path('app_vote_add') }}" method="post">
-                                                        <input name="image" value="{{ image.uuid }}" type="hidden">
-                                                        <input name="type" value="true" type="hidden">
-                                                        <button data-like-button="{{ image.uuid }}" type="button" class="px-5 rounded-md h-full font-bold text-lg text-accent-content bg-gradient-to-r from-cyan-400 to-blue-500">Like</button>
-                                                    </form>
+{#                                                    <span>Or false if down</span>#}
+                                                    <button {{ image.isLikedByUser ? 'data-vote-type="false"' : 'data-vote-type="true"' }}  data-like-button="{{ image.uuid }}" type="button" class="px-5 rounded-md h-full font-bold text-lg text-accent-content bg-gradient-to-r from-cyan-400 to-blue-500">Like</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -120,6 +119,19 @@
                             {%  endfor %}
                         </div>
                     </section>
+                </div>
+                <div class="mt-10">
+                    <div class="flex">
+                        <div>
+                            <button data-home-page-number="1">1</button>
+                        </div>
+                        <div>
+                            <button data-home-page-number="2">2</button>
+                        </div>
+                        <div>
+                            <button data-home-page-number="3">3</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -58,6 +58,8 @@ class Image
     #[ORM\Column(length: 255)]
     private ?string $Title = null;
 
+    public bool $isLikedByUser = false;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -259,5 +261,21 @@ class Image
         $this->Title = $Title;
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLikedByUser(): bool
+    {
+        return $this->isLikedByUser;
+    }
+
+    /**
+     * @param bool $isLikedByUser
+     */
+    public function setIsLikedByUser(bool $isLikedByUser): void
+    {
+        $this->isLikedByUser = $isLikedByUser;
     }
 }

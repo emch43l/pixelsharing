@@ -25,6 +25,9 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "daisyui": "^2.51.3"
+        "ajax": "^0.0.4",
+        "daisyui": "^2.51.3",
+        "jquery": "^3.6.4",
+        "node-snackbar": "^0.1.16"
     }
 }

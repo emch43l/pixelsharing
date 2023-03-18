@@ -21,7 +21,6 @@ class VoteUpdater
 
     }
 
-
     public function updateVotes(Vote $vote, LifecycleEventArgs $event) : void
     {
         $image = $vote->getImage();

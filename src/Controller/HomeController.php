@@ -32,10 +32,10 @@ class HomeController extends AbstractController
         $form->submit($request->query->all());
 
         $data = $this->imageService->getImages($template);
-        $images = $data->getItems();
-
+        $images = $this->imageService->markVotedByUser($data->getItems(), $this->getUser());
 
         return $this->render('home/index.html.twig', [
+            'current_category' => $template->getCategory(),
             'images' => $images,
             'user' => $this->getUser(),
             'categories' => $this->manager->getRepository(Category::class)->findAll(),

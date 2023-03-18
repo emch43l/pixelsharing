@@ -54,6 +54,15 @@ class VoteRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+    public function getUserVotesIds(UserInterface $user) : array
+    {
+        return $this->createQueryBuilder('q')
+            ->andWhere('q.User = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Vote[] Returns an array of Vote objects
 //     */

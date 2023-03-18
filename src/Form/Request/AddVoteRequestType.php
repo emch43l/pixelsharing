@@ -18,7 +18,7 @@ class AddVoteRequestType extends AbstractType
 
             ])
             ->add('type', CheckboxType::class,[
-
+                'false_values' => ['false', '0'],
             ]);
     }
 

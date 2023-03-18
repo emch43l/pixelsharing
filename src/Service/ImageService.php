@@ -11,10 +11,13 @@ use App\Repository\VoteRepository;
 use App\Request\CreateImageRequest;
 use App\Request\AddVoteRequest;
 use App\Request\HomeRequest;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class ImageService
 {
@@ -25,6 +28,7 @@ class ImageService
     private CategoryRepository $categoryRepository;
 
     public function __construct(
+        private LoggerInterface $logger,
         private EntityManagerInterface $manager,
         private PaginatorInterface $paginator,
         private Security $security
@@ -57,6 +61,9 @@ class ImageService
 
         if($existingVote !== null)
         {
+            $this->logger->notice("---------------------");
+            $this->logger->notice($request->getType());
+            $this->logger->notice("---------------------");
             $existingVote->setReaction($request->getType());
             $this->manager->persist($existingVote);
         }
@@ -95,5 +102,30 @@ class ImageService
             $request->getPage(),
             self::PAGELIMIT
         );
+    }
+
+    public function markVotedByUser(array $imageItems, UserInterface|null $user) : iterable
+    {
+        if($user === null)
+            return $imageItems;
+
+        $userVotes = new ArrayCollection($this->voteRepository->getUserVotesIds($user));
+        $userVotesIds = $userVotes->map(function (Vote $vote) {
+           return [$vote->getImage()->getId(),$vote->getReaction()];
+        })->toArray();
+
+        $items = new ArrayCollection($imageItems);
+
+        return $items->map(function (Image $image) use ($userVotesIds) {
+            foreach ($userVotesIds as $data)
+            {
+                if($image->getId() == $data[0])
+                {
+                    $image->setIsLikedByUser($data[1]);
+                    break;
+                }
+            }
+            return $image;
+        });
     }
 }
