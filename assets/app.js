@@ -10,3 +10,19 @@ import './styles/app.css';
 
 // start the Stimulus application
 import './bootstrap';
+
+$(window).on('load', (data) => {
+    likeButton();
+});
+
+function likeButton()
+{
+    let buttons = $('button').data('like-button');
+    [...buttons].forEach(btn => {
+        if(btn != null) {
+            btn.on('click',e => {
+                alert('działa');
+            });
+        }
+    });
+}

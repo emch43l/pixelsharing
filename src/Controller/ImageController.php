@@ -33,7 +33,7 @@ class ImageController extends AbstractController
         }
 
         return $this->render('image/index.html.twig', [
-            'error' => $form->getErrors(),
+            'error' => $form->getErrors(true,true),
             'user' => $this->getUser(),
             'form' => $form->createView()
         ]);

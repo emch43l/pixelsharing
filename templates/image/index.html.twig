@@ -2,16 +2,71 @@
 
 {% block body %}
 
-    {% if error.count > 0 %}
+<div class="w-full max-w-sm m-auto mt-20">
 
-        <div>
-            {{ error.current.message }}
+    <div>
+        <h1 class="text-center text-accent-content text-2xl">Create your <span class="text-cyan-400 font-bold"> Pixel </span> !</h1>
+    </div>
+
+    {{ form_start(form) }}
+        {#    <div class="card w-96 bg-base-100 shadow-xl">#}
+        {#        <div class="card-body">#}
+        {#            <h2 class="card-title">Card title!</h2>#}
+        {#            <p>If a dog chews shoes whose shoes does he choose?</p>#}
+        {#            <div class="card-actions justify-end">#}
+        {#                <button class="btn btn-primary">Buy Now</button>#}
+        {#            </div>#}
+        {#        </div>#}
+        {#    </div>#}
+
+        {% if error.count %}
+            <div class="alert alert-error shadow-lg mt-5">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    <span>{{ error.current.message }}</span>
+                </div>
+            </div>
+        {% endif %}
+
+        {#    {% if app.user %}#}
+        {#        <div class="mb-3">#}
+        {#            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>#}
+        {#        </div>#}
+        {#    {% endif %}#}
+
+
+
+        {#    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>#}
+        {#    <label for="inputUsername">Username</label>#}
+        {#    <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>#}
+        {#    <label for="inputPassword">Password</label>#}
+        {#    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>#}
+        <div class="form-control w-full mt-8">
+            <label class="label">
+                <span class="label-text">Your pixel Title</span>
+                <span class="label-text-alt">Minimum 2 characters</span>
+            </label>
+            {{ form_widget(form.title, {'attr' : {'class' : 'input input-bordered w-full'}}) }}
         </div>
-
-    {% endif %}
-
-    {{ form(form) }}
-
+        <div class="form-control w-full mt-10">
+            <label class="label">
+                <span class="label-text">Pick your pixel image</span>
+                <span class="label-text-alt">.JPG .JPEG .PNG</span>
+            </label>
+            {{ form_widget(form.image, {'attr' : {'class' : 'file-input w-full'}}) }}
+        </div>
+        <div class="form-control w-full mt-5">
+            <label class="label">
+                <span class="label-text">Pick your image category</span>
+                <span class="label-text-alt"></span>
+            </label>
+            {{ form_widget(form.category, {'attr' : {'class' : 'select w-full'}}) }}
+        </div>
+        <div class="mt-12 flex justify-center">
+            <a class="btn mr-3" href="{{ path('app_home') }}">Back</a>
+            {{ form_widget(form.submit, {'attr' : {'class' : 'btn btn-active btn-primary'}}) }}
+        </div>
     {{ form_end(form) }}
+</div>
 
 {% endblock %}

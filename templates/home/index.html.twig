@@ -109,7 +109,7 @@
                                                     <form class="h-full" action="{{ path('app_vote_add') }}" method="post">
                                                         <input name="image" value="{{ image.uuid }}" type="hidden">
                                                         <input name="type" value="true" type="hidden">
-                                                        <button type="submit" class="px-5 rounded-md h-full font-bold text-lg text-accent-content bg-gradient-to-r from-cyan-400 to-blue-500">Like</button>
+                                                        <button data-like-button="{{ image.uuid }}" type="button" class="px-5 rounded-md h-full font-bold text-lg text-accent-content bg-gradient-to-r from-cyan-400 to-blue-500">Like</button>
                                                     </form>
                                                 </div>
                                             </div>

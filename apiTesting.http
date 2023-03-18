@@ -1,0 +1,7 @@
+POST http://localhost:8000/vote/add
+Content-Type: application/*
+Accept: application/json
+
+id=99&content=new-element
+
+###

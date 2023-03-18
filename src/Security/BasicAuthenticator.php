@@ -2,11 +2,14 @@
 
 namespace App\Security;
 
+use Symfony\Component\HttpFoundation\AcceptHeader;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\CsrfTokenBadge;
@@ -23,6 +26,22 @@ class BasicAuthenticator extends AbstractLoginFormAuthenticator
 
     public function __construct(private UrlGeneratorInterface $urlGenerator)
     {
+
+    }
+
+    public function start(Request $request, AuthenticationException $authException = null): Response
+    {
+        $header = AcceptHeader::fromString($request->headers->get('Accept'));
+
+        if($header->has('application/json'))
+        {
+            return new JsonResponse([
+                'message' => 'unauthorized'
+            ],Response::HTTP_UNAUTHORIZED);
+        }
+
+        return new RedirectResponse($this->urlGenerator->generate(self::LOGIN_ROUTE));
+
     }
 
     public function authenticate(Request $request): Passport
