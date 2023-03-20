@@ -29,12 +29,16 @@ class VoteController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
-            if($this->imageService->addVote($voteRequest) === true)
+            if($this->imageService->addVote($voteRequest) === true) {
                 return $this->json([],Response::HTTP_OK);
-            else
+            } else {
                 return $this->json([],Response::HTTP_BAD_REQUEST);
+            }
         }
 
-        return $this->json(['submitted' => $form->getErrors()],Response::HTTP_BAD_REQUEST);
+        return $this->json(
+            ['submitted' => $form->getErrors()
+            ],Response::HTTP_BAD_REQUEST
+        );
     }
 }

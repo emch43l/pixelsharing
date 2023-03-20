@@ -8,3 +8,13 @@ body
     font-family: 'Poppins', sans-serif;
 }
 
+.menu
+{
+    transition: right ease-in-out 0.2s;
+}
+
+.menu-open
+{
+    right: 0 !important;
+}
+

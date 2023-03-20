@@ -60,6 +60,14 @@ class ImageRepository extends ServiceEntityRepository
             ->getQuery();
     }
 
+    public function countAll(): int
+    {
+        return $this->createQueryBuilder('u')
+            ->select('count(u.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
 //    public function findOneBySomeField($value): ?Image
 //    {
 //        return $this->createQueryBuilder('i')

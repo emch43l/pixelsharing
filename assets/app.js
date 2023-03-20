@@ -18,7 +18,27 @@ import 'node-snackbar/dist/snackbar.min.css';
 $(window).on('load', (data) => {
     likeButton();
     homeForm();
+    mobileMenu();
 });
+
+function mobileMenu()
+{
+    let isOpen = $('body[data-menu-open]').data('menu-open');
+    let menu = $('#mobie-menu');
+    let openButton = $('#menu-open-button');
+    let closeButton = $('#menu-close-button');
+    if(openButton == null || openButton == undefined)
+        return;
+
+    openButton.on('click',e => {
+        $(menu).addClass('menu-open');
+    });
+
+    closeButton.on('click',e => {
+        $(menu).removeClass('menu-open');
+    })
+
+}
 
 function homeForm()
 {
@@ -67,6 +87,7 @@ function likeButton()
                         image : $(btn).data('like-button'),
                         type: voteType
                     },
+                    // IMPORTANT
                     headers: {
                         'Accept': 'application/json'
                     },

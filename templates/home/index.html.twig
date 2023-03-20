@@ -2,45 +2,48 @@
 
 {% block body %}
     <div>
-        <div class="px-28">
-            <div class="mt-24">
+        <div class="px-8 md:px-28">
+            <div class="mt-16 md:mt-24">
                 <div>
                     <div class="flex justify-between items-end">
                         <div>
-                            <span class="text-5xl font-bold text-accent-content">Photos</span>
+                            <span class="text-3xl md:text-5xl font-bold text-accent-content">Photos</span>
                         </div>
                         <div class="text-right">
                             <div>
-                                <span class="text-3xl font-semibold text-accent-content">1500</span>
+                                <span class="text-md md:text-3xl font-semibold text-accent-content">{{ total_uploads }}</span>
                             </div>
-                            <div class="-mt-1">
-                                <span class="text-sm opacity-50">total uploads</span>
+                            <div class="-mt-2 md:-mt-1">
+                                <span class="text-xs md:text-sm opacity-50">total uploads</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="mt-5">
-                    <div class="bg-base-300 rounded-md p-4">
+                <div class="mt-2 md:mt-5">
+                    <div class="bg-base-300 rounded-md p-2 md:p-4 overflow-x-auto">
                         <form method="get" id="home-form">
                             <input type="hidden" name="page" value="1" id="page-number-input">
                             <input type="hidden" name="category" id="image-category" value="{{ current_category }}">
                             <div class="flex">
+                                <div>
+                                    <input value="All" type="button" class="{{ current_category == "" ? "text-accent-content bg-base-100 shadow-lg font-medium " : ""}}rounded-md cursor-pointer mx-2 px-5 py-1 md:py-2" data-image-category="" />
+                                </div>
                                 {% for category in categories %}
                                     <div>
-                                        <input value="{{ category.name }}" type="button" class="mx-2 px-5 py-2" data-image-category="{{ category.uuid }}" />
+                                        <input value="{{ category.name }}" type="button" class="{{ current_category == category.uuid ? "text-accent-content bg-base-100 shadow-lg font-medium " : "" }}rounded-md cursor-pointer mx-2 px-5 py-1 md:py-2" data-image-category="{{ category.uuid }}" />
                                     </div>
                                 {% endfor %}
                             </div>
                         </form>
                     </div>
                 </div>
-                <div class="mt-10">
+                <div class="mt-5 md:mt-10">
                     <section>
                         <div class="grid grid-cols-1 home-md:grid-cols-2 home-lg:grid-cols-3 justify-items-center gap-6">
-                            {% for image in images %}
-                            <div class="overflow-hidden rounded-md shadow-xl w-72">
-                                <div class="w-72 h-72 relative">
-                                    <img class="object-cover w-full h-full" src="{{ asset('build/images/test.979a2049.jpg') }}">
+                            {% for image in paginator.items %}
+                            <div class="overflow-hidden rounded-md shadow-xl w-full home-md:w-72">
+                                <div class="w-full h-72 relative home-md:w-72">
+                                    <img class="object-cover w-full h-full" src="{{ vich_uploader_asset(image) }}">
                                     <div class="absolute inset-0">
                                         <div class="flex justify-between inset-x-0 absolute mt-3">
                                             <div class="ml-3">
@@ -59,7 +62,7 @@
                                             <div class="w-full text-center">
                                                 <span class="px-4 py-0.5 font-semibold text-accent-content text-xs bg-base-300 rounded-md">{{ image.category.name }}</span>
                                             </div>
-                                            <div class="mt-2">
+                                            <div class="mt-2 px-4">
                                                 <span class="font-bold text-lg text-accent-content">{{ image.title }}</span>
                                             </div>
                                         </div>
@@ -120,18 +123,8 @@
                         </div>
                     </section>
                 </div>
-                <div class="mt-10">
-                    <div class="flex">
-                        <div>
-                            <button data-home-page-number="1">1</button>
-                        </div>
-                        <div>
-                            <button data-home-page-number="2">2</button>
-                        </div>
-                        <div>
-                            <button data-home-page-number="3">3</button>
-                        </div>
-                    </div>
+                <div class="mt-10 mb-5">
+                    {{ knp_pagination_render(paginator,'/extensions/paginatorFooter.html.twig') }}
                 </div>
             </div>
         </div>

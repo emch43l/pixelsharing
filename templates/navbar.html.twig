@@ -1,25 +1,49 @@
 
 
-<div class="mt-8">
-    <div class="flex justify-between items-center px-12">
+<div class="mt-5 md:mt-8">
+    <div class="flex justify-between items-center px-4 md:px-12">
         {{ include('logo.html.twig') }}
         <div>
             <div class="flex justify-evenly">
+
                 {% if user %}
-                    <div class="mr-3">
-                        <a class="btn btn-outline border-0" href="">Register</a>
-                    </div>
-                    <div>
-                        <a class="btn" href="{{ path('app_logout') }}">Logout</a>
+                    <div class="hidden md:flex">
+                        <div class="mr-10">
+                            <a class="btn btn-outline border-2 border-cyan-400" href="{{ path('app_image') }}">
+                                <i class="fas fa-upload text-cyan-400"></i>
+                                <span class="ml-4 text-accent-content">Upload</span>
+                            </a>
+                        </div>
+                        <div class="mr-1">
+                            <a class="btn" href="">
+                                <i class="text-md fas fa-user"></i>
+                            </a>
+                        </div>
+                        <div>
+                            <a class="btn" href="{{ path('app_logout') }}">Logout</a>
+                        </div>
                     </div>
                 {% else %}
-                    <div class="mr-3">
-                        <a class="btn btn-outline border-0" href="{{ path('app_register') }}">Register</a>
-                    </div>
-                    <div>
-                        <a class="btn" href="{{ path('app_login') }}">Login</a>
+                    <div class="hidden md:flex">
+                        <div class="mr-3 md:block">
+                            <a class="btn btn-outline border-0" href="{{ path('app_register') }}">Register</a>
+                        </div>
+                        <div>
+                            <a class="btn" href="{{ path('app_login') }}">Login</a>
+                        </div>
                     </div>
                 {% endif %}
+                <div class="md:hidden">
+                    <label for="mobile-menu-modal" class="cursor-pointer">
+                        <div class="p-1 w-10">
+                            <div class="h-0.5 bg-neutral-content rounded-md"></div>
+                            <div class="h-0.5 mt-1.5 bg-neutral-content rounded-md"></div>
+                            <div class="h-0.5 mt-1.5 bg-neutral-content rounded-md"></div>
+                        </div>
+                    </label>
+{#                    <button class="pointer px-1 py-1" id="menu-open-button">#}
+{#                    </button>#}
+                </div>
             </div>
         </div>
     </div>

@@ -21,7 +21,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class ImageService
 {
-    private const PAGELIMIT = 18;
+    private const PAGELIMIT = 9;
 
     private ImageRepository $imageRepository;
     private VoteRepository $voteRepository;
@@ -61,9 +61,9 @@ class ImageService
 
         if($existingVote !== null)
         {
-            $this->logger->notice("---------------------");
-            $this->logger->notice($request->getType());
-            $this->logger->notice("---------------------");
+//            $this->logger->notice("---------------------");
+//            $this->logger->notice($request->getType());
+//            $this->logger->notice("---------------------");
             $existingVote->setReaction($request->getType());
             $this->manager->persist($existingVote);
         }
@@ -104,6 +104,11 @@ class ImageService
         );
     }
 
+    public function countAll(): int
+    {
+        return $this->imageRepository->countAll();
+    }
+
     public function markVotedByUser(array $imageItems, UserInterface|null $user) : iterable
     {
         if($user === null)
@@ -117,8 +122,7 @@ class ImageService
         $items = new ArrayCollection($imageItems);
 
         return $items->map(function (Image $image) use ($userVotesIds) {
-            foreach ($userVotesIds as $data)
-            {
+            foreach ($userVotesIds as $data) {
                 if($image->getId() == $data[0])
                 {
                     $image->setIsLikedByUser($data[1]);
@@ -126,6 +130,6 @@ class ImageService
                 }
             }
             return $image;
-        });
+        })->toArray();
     }
 }

@@ -2,6 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         <script src="https://kit.fontawesome.com/8cb3256003.js" crossorigin="anonymous"></script>
@@ -15,7 +16,7 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
-    <body>
+    <body data-menu-open="false">
         <main>
             <div class="flex justify-center">
                 <div class="w-full max-w-6xl bg-base-200 min-h-screen">
@@ -37,5 +38,15 @@
                 </div>
             </div>
         </main>
+        <aside>
+            <input type="checkbox" id="mobile-menu-modal" class="modal-toggle" />
+            <div class="modal">
+                <div class="modal-box relative">
+                    <label for="mobile-menu-modal" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+                    <h3 class="text-lg font-bold">Congratulations random Internet user!</h3>
+                    <p class="py-4">You've been selected for a chance to get one year of subscription to use Wikipedia for free!</p>
+                </div>
+            </div>
+        </aside>
     </body>
 </html>

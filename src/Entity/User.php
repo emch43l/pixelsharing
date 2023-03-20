@@ -53,6 +53,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private \DateTimeImmutable $updatedAt;
 
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?UserStatistics $userStatistics = null;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -294,6 +297,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUpdatedAt(\DateTimeImmutable $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    public function getUserStatistics(): ?UserStatistics
+    {
+        return $this->userStatistics;
+    }
+
+    public function setUserStatistics(UserStatistics $userStatistics): self
+    {
+        // set the owning side of the relation if necessary
+        if ($userStatistics->getUser() !== $this) {
+            $userStatistics->setUser($this);
+        }
+
+        $this->userStatistics = $userStatistics;
+
+        return $this;
     }
 
 }
