@@ -42,9 +42,56 @@
             <input type="checkbox" id="mobile-menu-modal" class="modal-toggle" />
             <div class="modal">
                 <div class="modal-box relative">
-                    <label for="mobile-menu-modal" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-                    <h3 class="text-lg font-bold">Congratulations random Internet user!</h3>
-                    <p class="py-4">You've been selected for a chance to get one year of subscription to use Wikipedia for free!</p>
+                    <h3 class="text-xl font-bold">Menu</h3>
+                    <label for="mobile-menu-modal" class="btn btn-sm btn-circle absolute right-2 top-2">
+                        <i class="fas fa-times"></i>
+                    </label>
+                    <div class="mt-8">
+                        <div class="flex between mt-5">
+                            {% if app.user %}
+                                <div>
+                                    <a href="{{ path('app_image') }}">
+                                        <div class="w-full h-full p-0.5 flex">
+                                            <div class="bg-base-200 flex items-center px-4 rounded-md uppercase flex-wrap text-center">
+                                                <div class="mt-5 w-full">
+                                                    <i class="fas fa-upload text-cyan-400 text-lg"></i>
+                                                </div>
+                                                <div class="text-accent-content w-full mb-5 font-bold text-sm">Upload</div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            {% endif %}
+                            <div class="w-full {{ app.user ? "ml-5" : ""}}">
+                                {% if app.user %}
+                                    <div class="w-full">
+                                        <a class="btn w-full" href="{{ path('app_logout') }}">Profile</a>
+                                    </div>
+                                    <div class="w-full mt-1">
+                                        <a class="btn w-full" href="{{ path('app_logout') }}">Your uploads</a>
+                                    </div>
+                                {% else %}
+                                    <div class="w-full">
+                                        <a class="btn w-full" href="{{ path('app_register') }}">Register</a>
+                                    </div>
+                                    <div class="w-full mt-1">
+                                        <a class="btn w-full" href="{{ path('app_login') }}">Login</a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% if app.user %}
+                            <div class="h-1 w-3/4 bg-base-200 mx-auto mt-5 rounded-lg"></div>
+                            <div class="mt-2">
+                                <a class="btn font-bold text-md w-full btn-outline border-0" href="{{ path('app_logout') }}">
+                                    <i class="fas fa-power-off text-lg"></i>
+                                    <span class="ml-3">
+                                    Logout
+                                </span>
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </aside>

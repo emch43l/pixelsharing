@@ -112,7 +112,9 @@
                                             <div class="flex justify-center items-center">
                                                 <div class="h-full">
 {#                                                    <span>Or false if down</span>#}
-                                                    <button {{ image.isLikedByUser ? 'data-vote-type="false"' : 'data-vote-type="true"' }}  data-like-button="{{ image.uuid }}" type="button" class="px-5 rounded-md h-full font-bold text-lg text-accent-content bg-gradient-to-r from-cyan-400 to-blue-500">Like</button>
+                                                    <button {{ image.isLikedByUser ? 'data-vote-type="false"' : 'data-vote-type="true"' }}  data-like-button="{{ image.uuid }}" type="button" class="px-5 btn rounded-md h-full font-black text-accent-content">
+                                                        <span class="bg-gradient-to-r from-cyan-400 text-lg to-blue-500 bg-clip-text text-transparent">View</span>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>

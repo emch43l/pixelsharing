@@ -9,9 +9,15 @@
                 {% if user %}
                     <div class="hidden md:flex">
                         <div class="mr-10">
-                            <a class="btn btn-outline border-2 border-cyan-400" href="{{ path('app_image') }}">
-                                <i class="fas fa-upload text-cyan-400"></i>
-                                <span class="ml-4 text-accent-content">Upload</span>
+                            <a href="{{ path('app_image') }}">
+                                <div class="w-full h-full bg-gradient-to-r from-cyan-400 to-blue-500 rounded-lg p-0.5 flex">
+                                    <div class="bg-base-100 flex items-center px-4 rounded-md uppercase font-medium">
+                                        <span class="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                                            <i class="fas fa-upload text-cyan-400"></i>
+                                        </span>
+                                        <span class="ml-4 text-accent-content">Upload</span>
+                                    </div>
+                                </div>
                             </a>
                         </div>
                         <div class="mr-1">

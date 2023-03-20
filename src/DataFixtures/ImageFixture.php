@@ -39,7 +39,7 @@ class ImageFixture extends Fixture implements DependentFixtureInterface
             $image->setUser($user);
             $image->setTitle('sample title 123');
             $image->setCategory($categories[array_rand($categories)]);
-            $image->setImageName('sampleImage');
+            $image->setImageName('test.979a2049.jpg');
             $this->addReference($value,$image);
             $manager->persist($image);
         }
