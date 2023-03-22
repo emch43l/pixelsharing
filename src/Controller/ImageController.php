@@ -10,8 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Uid\Uuid;
 
-#[IsGranted('ROLE_USER')]
 #[Route('image')]
 class ImageController extends AbstractController
 {
@@ -19,6 +19,20 @@ class ImageController extends AbstractController
     {
 
     }
+
+    #[Route('/view/{uuid}', name: 'app_image_view')]
+    public function view(Uuid $uuid): Response
+    {
+        $image = $this->imageService->getOneByUuid($uuid);
+        if($image === null)
+            return $this->createNotFoundException();
+
+        return $this->render('image/view.html.twig',[
+            'image' => $image,
+        ]);
+    }
+
+    #[IsGranted('ROLE_USER')]
     #[Route('/create', name: 'app_image')]
     public function index(Request $request): Response
     {

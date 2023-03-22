@@ -18,6 +18,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Uid\Uuid;
 
 class ImageService
 {
@@ -45,6 +46,11 @@ class ImageService
         $image->setUser($this->security->getUser());
         $this->manager->persist($image);
         $this->manager->flush();
+    }
+
+    public function getOneByUuid(Uuid $uuid): Image|null
+    {
+        return $this->imageRepository->findOneBy(['uuid' => $uuid]);
     }
 
     public function addVote(AddVoteRequest $request) : bool

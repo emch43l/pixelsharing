@@ -55,7 +55,7 @@
                                                 </div>
                                             </div>
                                             <div class="mr-3">
-                                                <span class="text-sm font-semibold opacity-50">10/03/2023</span>
+                                                <span class="text-sm font-semibold opacity-50">{{ image.updatedAt|date("m/d/Y") }}</span>
                                             </div>
                                         </div>
                                         <div class="flex justify-center inset-x-0 bottom-0 absolute pb-2 bg-gradient-to-t from-black to-transparent flex-wrap">
@@ -112,9 +112,9 @@
                                             <div class="flex justify-center items-center">
                                                 <div class="h-full">
 {#                                                    <span>Or false if down</span>#}
-                                                    <button {{ image.isLikedByUser ? 'data-vote-type="false"' : 'data-vote-type="true"' }}  data-like-button="{{ image.uuid }}" type="button" class="px-5 btn rounded-md h-full font-black text-accent-content">
+                                                    <a href="{{ path('app_image_view',{'uuid' : image.uuid}) }}" {{ image.isLikedByUser ? 'data-vote-type="false"' : 'data-vote-type="true"' }}  data-like-button="{{ image.uuid }}" type="button" class="px-5 btn rounded-md h-full font-black text-accent-content">
                                                         <span class="bg-gradient-to-r from-cyan-400 text-lg to-blue-500 bg-clip-text text-transparent">View</span>
-                                                    </button>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
