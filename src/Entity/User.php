@@ -58,6 +58,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
+        $userStats = new UserStatistics();
+        $userStats->setTotalActions(0);
+        $userStats->setTotalShares(0);
+        $userStats->setUser($this);
+
+        $this->setUserStatistics($userStats);
+
         $this->comments = new ArrayCollection();
         $this->votes = new ArrayCollection();
         $this->images = new ArrayCollection();

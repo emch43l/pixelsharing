@@ -26,9 +26,7 @@ class PaginationRequestType extends AbstractType
                         return $var;
                     },
                     function (mixed $var) {
-                        if($var < 1)
-                            return 1;
-                        return $var;
+                        return max($var, 1);
                     })
                 );
     }
