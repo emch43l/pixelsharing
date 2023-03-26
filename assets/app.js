@@ -69,63 +69,78 @@ function homeForm()
 
 function likeButton()
 {
-    let buttons = $("button[data-like-button]");
-    [...buttons].forEach(btn => {
-        if(btn != null) {
-            $(btn).on('click', e => {
+    let likeButton = $('#pixel-like');
+    let dislikeButton = $('#pixel-dislike');
+    let likeNumber = $('#pixel-like-number-span');
 
-                $(btn).attr('disabled','disabled');
+    if(likeButton === null || likeButton === undefined || dislikeButton === null || dislikeButton === undefined)
+        return;
 
-                let element = $('span[data-image-votes-identifier='+$(btn).data('like-button')+']');
-                let voteElement = $(btn).data('vote-type');
-                let voteType = voteElement == true ? true : false;
+    $(likeButton).on('click', (e) => {
+        sendRequest(true,$(likeButton).data('image-id'),$(likeButton),() => {
 
-                let request = $.ajax({
-                    method: 'POST',
-                    url :'/vote/add',
-                    data: {
-                        image : $(btn).data('like-button'),
-                        type: voteType
-                    },
-                    // IMPORTANT
-                    headers: {
-                        'Accept': 'application/json'
-                    },
-                }).done(e => {
+            let likes = parseInt($(likeNumber).text());
+            if($(likeNumber).data('user-liked') === false)
+            {
+                $(likeNumber).text((likes + 1));
+                $(likeNumber).data('user-liked',true);
+            }
 
-                   let votes = parseInt($(element).data('image-votes'));
+            SnackBar.show({
+                text: 'Added your like vote !',
+            });
 
-                   voteType === true ?
-                       votes++ : votes--;
+        });
+    });
 
-                   element.text(votes);
+    $(dislikeButton).on('click', (e) => {
+        sendRequest(false,$(dislikeButton).data('image-id'),$(dislikeButton),() => {
 
-                   SnackBar.show({
-                       text: 'Added your vote !',
-                       actionText: 'Ok'
-                   });
+            let likes = parseInt($(likeNumber).text());
+            if($(likeNumber).data('user-liked') === true)
+            {
+                $(likeNumber).text((likes - 1));
+                $(likeNumber).data('user-liked',false);
+            }
 
-                   $(btn).data('vote-type',!voteType);
-                   $(element).data('image-votes',votes);
+            SnackBar.show({
+                text: 'Added your dislike vote !',
+            });
+        });
+    });
 
-                }).fail(e => {
-                    if(e.status == 401) {
-                        SnackBar.show({
-                            text: 'Please log in to use this action !',
-                            actionText : 'Login',
-                            onActionClick: function(element) {
-                                $(window).attr('location','/login');
-                            }
-                        });
-                    } else {
-                        SnackBar.show({
-                            text: 'An error occured', showAction: false
-                        });
-                    }
-                }).always(e => {
-                    $(btn).removeAttr('disabled');
-                });
+}
+
+function sendRequest(voteType, imageId, btn, done)
+{
+    $(btn).attr('disabled','disabled');
+
+    let request = $.ajax({
+        method: 'POST',
+        url :'/vote/add',
+        data: {
+            image : imageId,
+            type: voteType
+        },
+        // IMPORTANT
+        headers: {
+            'Accept': 'application/json'
+        },
+    }).done(e => done()).fail(e => {
+        if(e?.status === 401) {
+            SnackBar.show({
+                text: 'Please log in to use this action !',
+                actionText : 'Login',
+                onActionClick: function(element) {
+                    $(window).attr('location','/login');
+                }
+            });
+        } else {
+            SnackBar.show({
+                text: 'An error occured', showAction: false
             });
         }
+    }).always(e => {
+        $(btn).removeAttr('disabled');
     });
 }

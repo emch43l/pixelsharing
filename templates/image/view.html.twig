@@ -1,5 +1,19 @@
 {% extends 'base.html.twig' %}
 
+{% block javascripts %}
+
+    {{ encore_entry_script_tags('app') }}
+
+{% endblock %}
+
+
+{% block stylesheets %}
+
+    {{ encore_entry_link_tags('app') }}
+
+{% endblock %}
+
+
 {% block body %}
 
     <div class="px-8 md:px-28">
@@ -41,18 +55,16 @@
                         <div>
                             <div class="flex h-12 mr-2">
                                 <div class="btn-group">
-                                    <button class="h-full btn text-lg">
+                                    <button class="h-full btn text-lg" id="pixel-like" data-image-id="{{ image.uuid }}">
                                         <span class="text-secondary mr-4">
                                             <i class="fas fa-heart"></i>
                                         </span>
-                                        <span class="text-base">
+                                        <span class="text-base" id="pixel-like-number-span" data-user-liked="{{ image.isLikedByUser ? 'true' : 'false' }}" data-like-number="{{ image.positiveVotes }}">
                                             {{ image.positiveVotes }}
                                         </span>
                                     </button>
-                                    <div class="h-full w-0.5 bg-base-100">
-
-                                    </div>
-                                    <button class="h-full btn text-lg">
+                                    <div class="h-full w-0.5 bg-base-100"></div>
+                                    <button class="h-full btn text-lg" id="pixel-dislike" data-image-id="{{ image.uuid }}">
                                         <i class="fas fa-heart-broken"></i>
                                     </button>
                                 </div>
@@ -73,78 +85,55 @@
                                     Comments:
                                 </span>
                                 <span class="text-accent-content font-bold">
-                                    123
+                                    {{ comment_count }}
                                 </span>
                             </span>
                             </label>
+                            {{ form_start(form) }}
                             <label class="input-group w-full">
-                                <input type="text" placeholder="cool !" class="input input-bordered w-full" />
-                                <button class="btn">Add comment</button>
+                                {{ form_widget(form.content, {'attr' : {'class' : 'input input-bordered w-full'}}) }}
+                                <button class="btn" type="submit">Add comment</button>
                             </label>
+                            {{ form_end(form) }}
                         </div>
                     </div>
-                    <div class="mt-10">
-                        <div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-{#                                comment section #}
-                                <div class="bg-base-200 p-3 rounded-md">
-                                    <div class="flex">
-                                        <div>
-                                            <div class="h-8 w-8">
-                                                <img class="rounded-md h-full w-full object-cover" src="{{ asset('build/images/userProfileImage.abac95e5.jpg') }}">
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div class="ml-2">
-                                                <div class="-mt-1">
-                                                    <span class="font-medium text-sm">
-                                                        Jarek
-                                                    </span>
-                                                </div>
-                                                <div class="-mt-2">
-                                                    <span class="text-xs">
-                                                        12/03/2023
-                                                    </span>
+                    {% if comment_count %}
+                        <div class="mt-10">
+                            <div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                    {% for comment in image.comments %}
+                                    <div class="bg-base-200 p-3 rounded-md">
+                                        <div class="flex">
+                                            <div>
+                                                <div class="h-8 w-8">
+                                                    <img class="rounded-md h-full w-full object-cover" src="{{ asset('build/images/userProfileImage.abac95e5.jpg') }}">
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="mt-1 leading-tight">
-                                        <span class="text-xs comment-section ">
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti distinctio dolores doloribus dolorum ducimus eaque earum eveniet facere ipsum iure labore laboriosam minus nam odit perspiciatis quae, rerum sed similique?
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="bg-base-200 p-3 rounded-md">
-                                    <div class="flex">
-                                        <div>
-                                            <div class="h-8 w-8">
-                                                <img class="rounded-md h-full w-full object-cover" src="{{ asset('build/images/userProfileImage.abac95e5.jpg') }}">
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div class="ml-2">
-                                                <div class="-mt-1">
-                                                    <span class="font-medium text-sm">
-                                                        Jarek
-                                                    </span>
-                                                </div>
-                                                <div class="-mt-2">
-                                                    <span class="text-xs">
-                                                        12/03/2023
-                                                    </span>
+                                            <div>
+                                                <div class="ml-2">
+                                                    <div class="-mt-1">
+                                                        <span class="font-medium text-sm">
+                                                            {{ comment.user.username }}
+                                                        </span>
+                                                    </div>
+                                                    <div class="-mt-2">
+                                                        <span class="text-xs">
+                                                            {{ comment.date|date('m/d/Y') }}
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="mt-1 leading-tight">
+                                            <span class="text-xs comment-section ">
+                                                {{ comment.content }}
+                                            </span>
+                                        </div>
                                     </div>
-                                    <div class="mt-1 leading-tight">
-                                        <span class="text-xs">
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                        </span>
-                                    </div>
+                                    {% endfor %}
                                 </div>
                             </div>
-                        </div>
+                            {% endif  %}
                     </div>
                 </div>
             </div>

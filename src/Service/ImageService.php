@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Category;
+use App\Entity\Comment;
 use App\Entity\Image;
 use App\Entity\Vote;
 use App\Repository\CategoryRepository;
@@ -50,7 +51,10 @@ class ImageService
 
     public function getOneByUuid(Uuid $uuid): Image|null
     {
-        return $this->imageRepository->findOneBy(['uuid' => $uuid]);
+        $image = $this->imageRepository->findOneBy(['uuid' => $uuid]);
+        if($image === null)
+            return null;
+        return $this->markVotedByUser([$image],$this->security->getUser())[0];
     }
 
     public function addVote(AddVoteRequest $request) : bool
@@ -112,7 +116,7 @@ class ImageService
 
     public function countAll(): int
     {
-        return $this->imageRepository->countAll();
+        return $this->imageRepository->count([]);
     }
 
     public function markVotedByUser(array $imageItems, UserInterface|null $user) : iterable
@@ -137,5 +141,14 @@ class ImageService
             }
             return $image;
         })->toArray();
+    }
+
+    public function addComment(Image $image, UserInterface $user, Comment $comment): void
+    {
+       $comment->setUser($user);
+       $comment->setImage($image);
+       $comment->setDate((new \DateTimeImmutable()));
+       $this->manager->persist($comment);
+       $this->manager->flush();
     }
 }

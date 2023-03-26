@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
+use App\Form\AddCommentFormType;
 use App\Form\Request\CreateImageRequestType;
 use App\Request\CreateImageRequest;
 use App\Service\ImageService;
@@ -20,15 +22,33 @@ class ImageController extends AbstractController
 
     }
 
-    #[Route('/view/{uuid}', name: 'app_image_view')]
-    public function view(Uuid $uuid): Response
+    #[Route('/view/{uuid}', name: 'app_image_view', methods: ['GET','POST'])]
+    public function view(Request $request, Uuid $uuid): Response
     {
         $image = $this->imageService->getOneByUuid($uuid);
         if($image === null)
             return $this->createNotFoundException();
 
+        $comment = new Comment();
+        $form = $this->createForm(AddCommentFormType::class,$comment);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $this->denyAccessUnlessGranted('ROLE_USER');
+            $this->imageService->addComment($image,$this->getUser(),$comment);
+
+            return $this->render('image/view.html.twig',[
+                'comment_count' => $image->getComments()->count(),
+                'image' => $image,
+                'form' => $form->createView()
+            ]);
+        }
+
         return $this->render('image/view.html.twig',[
+            'comment_count' => $image->getComments()->count(),
             'image' => $image,
+            'form' => $form->createView()
         ]);
     }
 
@@ -48,7 +68,6 @@ class ImageController extends AbstractController
 
         return $this->render('image/index.html.twig', [
             'error' => $form->getErrors(true,true),
-            'user' => $this->getUser(),
             'form' => $form->createView()
         ]);
     }
