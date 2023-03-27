@@ -2,13 +2,13 @@
 
 {% block body %}
 
-<div class="w-full max-w-sm m-auto mt-12 px-5 md:mt-20">
+    <div class="w-full max-w-sm m-auto mt-12 px-5 md:mt-20">
 
-    <div>
-        <h1 class="text-center text-accent-content text-2xl">Create your <span class="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent font-extrabold"> Pixel </span> !</h1>
-    </div>
+        <div>
+            <h1 class="text-center text-accent-content text-2xl">Edit your <span class="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent font-extrabold"> Pixel </span> !</h1>
+        </div>
 
-    {{ form_start(form) }}
+        {{ form_start(form) }}
         {#    <div class="card w-96 bg-base-100 shadow-xl">#}
         {#        <div class="card-body">#}
         {#            <h2 class="card-title">Card title!</h2>#}
@@ -48,13 +48,6 @@
             </label>
             {{ form_widget(form.title, {'attr' : {'class' : 'input input-bordered w-full'}}) }}
         </div>
-        <div class="form-control w-full mt-10">
-            <label class="label">
-                <span class="label-text">Pick your pixel image</span>
-                <span class="label-text-alt">.JPG .JPEG .PNG</span>
-            </label>
-            {{ form_widget(form.imageFile, {'attr' : {'class' : 'file-input w-full'}}) }}
-        </div>
         <div class="form-control w-full mt-5">
             <label class="label">
                 <span class="label-text">Pick your image category</span>
@@ -66,7 +59,7 @@
             <a class="btn mr-3" href="{{ path('app_home') }}">Back</a>
             {{ form_widget(form.submit, {'attr' : {'class' : 'btn btn-active btn-primary'}}) }}
         </div>
-    {{ form_end(form) }}
-</div>
+        {{ form_end(form) }}
+    </div>
 
 {% endblock %}

@@ -1,22 +1,18 @@
 <?php
 
-namespace App\Form\Request;
+namespace App\Form;
 
 use App\Entity\Category;
-use App\Request\CreateImageRequest;
+use App\Entity\Image;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\ChoiceList\ChoiceList;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\File;
-use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints\Length;
 
-class CreateImageRequestType extends AbstractType
+class EditImageFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -27,19 +23,6 @@ class CreateImageRequestType extends AbstractType
                     new Length([
                         'min' => 2,
                         'max' => 50
-                    ])
-                ]
-            ])
-            ->add('image',FileType::class, [
-                'required' => true,
-                'constraints' => [
-                    new File([
-                        'maxSize' => '2M',
-                        'mimeTypes' => [
-                            'image/png',
-                            'image/jpg',
-                            'image/jpeg'
-                        ],
                     ])
                 ]
             ])
@@ -57,7 +40,7 @@ class CreateImageRequestType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-           'data_class' => CreateImageRequest::class
+            'data_class' => Image::class
         ]);
     }
 }

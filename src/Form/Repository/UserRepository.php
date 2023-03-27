@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository;
+namespace App\Form\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -54,6 +54,11 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $user->setPassword($newHashedPassword);
 
         $this->save($user, true);
+    }
+
+    public function getUserByUsername(string $username): User|null
+    {
+        return $this->findOneBy(['username' => $username]);
     }
 
 //    /**

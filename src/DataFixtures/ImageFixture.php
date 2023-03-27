@@ -44,8 +44,6 @@ class ImageFixture extends Fixture implements DependentFixtureInterface
             $manager->persist($image);
         }
 
-
-
         $manager->flush();
 
     }

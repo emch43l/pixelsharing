@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div>
+        <div class="px-8 md:px-28">
+            <div class="mt-16 md:mt-24">
+                <div>
+                    <div class="flex justify-between items-end">
+                        <div>
+                            <span class="text-3xl md:text-5xl font-bold text-accent-content">{{ user.username }}'s photos</span>
+                        </div>
+                        <div class="text-right">
+                            <div>
+                                <span class="text-md md:text-3xl font-semibold text-accent-content">{{ paginator.totalItemCount }}</span>
+                            </div>
+                            <div class="-mt-1 md:-mt-1">
+                                <div class="text-xs md:text-sm opacity-50">total uploads</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-5 md:mt-10">
+                    <section>
+                        <div class="grid grid-cols-1 home-md:grid-cols-2 home-lg:grid-cols-3 justify-items-center gap-6">
+                            {% for image in paginator.items %}
+                                <div class="overflow-hidden rounded-md shadow-xl w-full home-md:w-72">
+                                    <div class="w-full h-72 relative home-md:w-72">
+                                        <img class="object-cover w-full h-full" src="{{ vich_uploader_asset(image) }}">
+                                        <div class="absolute inset-0">
+                                            <div class="flex justify-between inset-x-0 absolute mt-3">
+                                                <div class="ml-3">
+                                                    <div class="text-lg text-center">
+                                                        <i class="far fa-heart text-secondary"></i>
+                                                        <span class="ml-1 text-sm font-semibold text-accent-content" data-image-votes-identifier="{{ image.uuid }}" data-image-votes="{{ image.positiveVotes }}">
+                                                        {{ image.positiveVotes }}
+                                                    </span>
+                                                    </div>
+                                                </div>
+                                                <div class="mr-3">
+                                                    <span class="text-sm font-semibold opacity-50">{{ image.updatedAt|date("m/d/Y") }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="flex justify-center inset-x-0 bottom-0 absolute pb-2 bg-gradient-to-t from-black to-transparent flex-wrap">
+                                                <div class="w-full text-center">
+                                                    <span class="px-4 py-0.5 font-semibold text-accent-content text-xs bg-base-300 rounded-md">{{ image.category.name }}</span>
+                                                </div>
+                                                <div class="mt-2 px-4">
+                                                    <span class="font-bold text-lg text-accent-content">{{ image.title }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="bg-base-100">
+                                        <div class="p-4">
+                                            <div>
+                                                <div>
+                                                    <div class="h-full">
+                                                        {#                                                    <span>Or false if down</span>#}
+                                                        <a href="{{ path('app_image_view',{'uuid' : image.uuid}) }}" {{ image.isLikedByUser ? 'data-vote-type="false"' : 'data-vote-type="true"' }}  data-like-button="{{ image.uuid }}" type="button" class="px-5 btn rounded-md h-full font-black text-accent-content w-full">
+                                                            <span class="bg-gradient-to-r from-cyan-400 text-lg to-blue-500 bg-clip-text text-transparent">View</span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {%  endfor %}
+                        </div>
+                    </section>
+                </div>
+                <div class="mt-10 mb-5">
+                    {{ knp_pagination_render(paginator,'/extensions/paginatorFooter.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

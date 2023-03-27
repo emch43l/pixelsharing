@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Repository;
+namespace App\Form\Repository;
 
 use App\Entity\Category;
 use App\Entity\Image;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
@@ -44,7 +45,7 @@ class ImageRepository extends ServiceEntityRepository
     /**
      * @return Query
      */
-    public function findByCategory(Category $category): Query
+    public function findByCategoryQuery(Category $category): Query
     {
         return $this->createQueryBuilder('i')
             ->andWhere('i.Category = :category')
@@ -53,7 +54,15 @@ class ImageRepository extends ServiceEntityRepository
             ->getQuery();
     }
 
-    public function getAll(): Query
+    public function findByUserQuery(User $user): Query
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.User = :user')
+            ->setParameter('user', $user)
+            ->getQuery();
+    }
+
+    public function getAllQuery(): Query
     {
         return $this->createQueryBuilder('i')
             ->orderBy('i.updatedAt','DESC')

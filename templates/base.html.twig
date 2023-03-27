@@ -65,10 +65,10 @@
                             <div class="w-full {{ app.user ? "ml-5" : ""}}">
                                 {% if app.user %}
                                     <div class="w-full">
-                                        <a class="btn w-full" href="{{ path('app_logout') }}">Profile</a>
+                                        <a class="btn w-full" href="{{ path('app_user') }}">Profile</a>
                                     </div>
                                     <div class="w-full mt-1">
-                                        <a class="btn w-full" href="{{ path('app_logout') }}">Your uploads</a>
+                                        <a class="btn w-full" href="{{ path('app_user') }}">Your uploads</a>
                                     </div>
                                 {% else %}
                                     <div class="w-full">

@@ -29,8 +29,8 @@ class UserFixtures extends Fixture
         $userStats->setTotalActions(0);
         $userStats->setTotalShares(0);
         $userStats->setUser($user);
+        $user->setUserStatistics($userStats);
 
-        $manager->persist($userStats);
         $manager->persist($user);
         $manager->flush();
 

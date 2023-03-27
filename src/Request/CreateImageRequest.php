@@ -11,20 +11,20 @@ class CreateImageRequest
 {
     private ?string $title = null;
 
-    private ?UploadedFile $image = null;
+    private ?UploadedFile $imageFile = null;
 
     private ?Category $category = null;
 
     public function MapTo() : Image
     {
-        if($this->category === null || $this->title === null || $this->image === null)
+        if($this->category === null || $this->title === null || $this->imageFile === null)
         {
             throw new \InvalidArgumentException();
         }
         $image = new Image();
         $image->setTitle($this->title);
         $image->setCategory($this->category);
-        $image->setImageFile($this->image);
+        $image->setImageFile($this->imageFile);
 
         return $image;
     }
@@ -48,7 +48,7 @@ class CreateImageRequest
     /**
      * @return File|null
      */
-    public function getImage(): ?UploadedFile
+    public function getImageFile(): ?UploadedFile
     {
         return $this->image;
     }
@@ -56,7 +56,7 @@ class CreateImageRequest
     /**
      * @param File|null $file
      */
-    public function setImage(?UploadedFile $file): void
+    public function setImageFile(?UploadedFile $file): void
     {
         $this->image = $file;
     }

@@ -5,20 +5,21 @@ namespace App\Service;
 use App\Entity\Category;
 use App\Entity\Comment;
 use App\Entity\Image;
+use App\Entity\User;
 use App\Entity\Vote;
-use App\Repository\CategoryRepository;
-use App\Repository\ImageRepository;
-use App\Repository\VoteRepository;
-use App\Request\CreateImageRequest;
+use App\Form\Repository\CategoryRepository;
+use App\Form\Repository\ImageRepository;
+use App\Form\Repository\VoteRepository;
 use App\Request\AddVoteRequest;
+use App\Request\CreateImageRequest;
 use App\Request\HomeRequest;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\Uuid;
 
 class ImageService
@@ -41,29 +42,32 @@ class ImageService
         $this->voteRepository = $this->manager->getRepository(Vote::class);
     }
 
-    public function createNew(CreateImageRequest $request) : void
+    public function createNew(Image $image) : void
     {
-        $image = $request->MapTo();
         $image->setUser($this->security->getUser());
-        $this->manager->persist($image);
-        $this->manager->flush();
+        $this->imageRepository->save($image,true);
     }
 
-    public function getOneByUuid(Uuid $uuid): Image|null
+    public function getOneByUuid(Uuid $uuid): Image
     {
         $image = $this->imageRepository->findOneBy(['uuid' => $uuid]);
         if($image === null)
-            return null;
+            throw new NotFoundHttpException();
         return $this->markVotedByUser([$image],$this->security->getUser())[0];
     }
 
-    public function addVote(AddVoteRequest $request) : bool
+    public function update(Image $image): void
+    {
+        $this->imageRepository->save($image,true);
+    }
+
+    public function addVote(AddVoteRequest $request) : void
     {
         $user = $this->security->getUser();
 
         $image = $this->imageRepository->findOneBy(['uuid' => $request->getImage()]);
         if($image === null)
-            return false;
+            throw new NotFoundHttpException();
 
         $existingVote = $this->voteRepository->getVoteByImageAndUser(
             $image,$user
@@ -71,9 +75,6 @@ class ImageService
 
         if($existingVote !== null)
         {
-//            $this->logger->notice("---------------------");
-//            $this->logger->notice($request->getType());
-//            $this->logger->notice("---------------------");
             $existingVote->setReaction($request->getType());
             $this->manager->persist($existingVote);
         }
@@ -85,25 +86,19 @@ class ImageService
             $image->addVote($vote);
         }
 
-        $this->manager->persist($image);
-        $this->manager->flush();
-
-        return true;
+        $this->imageRepository->save($image,true);
     }
 
     public function getImages(HomeRequest $request) : PaginationInterface
     {
-        $cat_Repo = $this->manager->getRepository(Category::class);
-        $img_Repo = $this->manager->getRepository(Image::class);
+        $imagesQuery = [];
 
         if($request->getCategory() === null) {
-            $imagesQuery = $img_Repo->getAll();
+            $imagesQuery = $this->imageRepository->getAllQuery();
         } else {
-            $category = $cat_Repo->findOneBy(['uuid' => $request->getCategory()]);
-            if($category === null) {
-                $imagesQuery = [];
-            } else {
-                $imagesQuery = $img_Repo->findByCategory($category);
+            $category = $this->categoryRepository->findOneBy(['uuid' => $request->getCategory()]);
+            if($category !== null) {
+                $imagesQuery = $this->imageRepository->findByCategoryQuery($category);
             }
         };
 
@@ -119,7 +114,7 @@ class ImageService
         return $this->imageRepository->count([]);
     }
 
-    public function markVotedByUser(array $imageItems, UserInterface|null $user) : iterable
+    public function markVotedByUser(array $imageItems, User|null $user): array
     {
         if($user === null)
             return $imageItems;
@@ -143,7 +138,7 @@ class ImageService
         })->toArray();
     }
 
-    public function addComment(Image $image, UserInterface $user, Comment $comment): void
+    public function addComment(Image $image, User $user, Comment $comment): void
     {
        $comment->setUser($user);
        $comment->setImage($image);

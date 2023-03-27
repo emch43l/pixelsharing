@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Repository\VoteRepository;
+use App\Form\Repository\VoteRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\HasLifecycleCallbacks]

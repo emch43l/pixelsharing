@@ -74,7 +74,9 @@
                                             <div class="flex">
                                                 <div class="mr-4">
                                                     <div class="h-14 w-14 rounded-md overflow-hidden">
-                                                        <img class="w-full h-full object-cover" src="{{ asset('build/images/userProfileImage.abac95e5.jpg') }}">
+                                                        <a href="{{ path('app_image_user_view',{'username' : image.user.username}) }}">
+                                                            <img class="w-full h-full object-cover" src="{{ asset('build/images/userProfileImage.abac95e5.jpg') }}">
+                                                        </a>
                                                     </div>
                                                 </div>
                                                 <div>

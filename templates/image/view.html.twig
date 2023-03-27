@@ -16,32 +16,32 @@
 
 {% block body %}
 
-    <div class="px-8 md:px-28">
-        <div class="mt-20">
-            <div class="shadow-lg rounded-md overflow-hidden">
-                <div class="p-5 bg-base-100">
-                    <div class="flex justify-between items-center">
+    <div class="md:px-28">
+        <div class="mt-12 md:mt-20">
+            <div class="shadow-lg md:rounded-md overflow-hidden">
+                <div class="p-4 md:p-5 bg-base-100">
+                    <div class="flex justify-between items-center relative">
                         <div>
                             <div>
-                                <div class="flex h-16">
-                                    <div class="w-16 rounded-md overflow-hidden">
+                                <div class="flex h-12 md:h-16">
+                                    <div class="w-12 md:w-16 rounded-md overflow-hidden">
                                         <img class="w-full h-full object-cover" src="{{ asset('build/images/userProfileImage.abac95e5.jpg') }}">
                                     </div>
-                                    <div class="h-full w-0.5 mx-5 bg-base-200"></div>
+                                    <div class="h-full w-0.5 mx-3 md:mx-5 bg-base-200"></div>
                                     <div class="text-xs">
                                         <div class="-mt-1">
-                                            <span class="text-accent-content text-xl font-bold">{{ image.title }}</span>
+                                            <span class="text-accent-content text-base md:text-xl font-bold">{{ image.title }}</span>
                                         </div>
-                                        <div class="flex h-4 mt-1">
+                                        <div class="flex h-4 md:mt-1">
                                             <div>
                                                 <span class="font-semibold">{{ image.updatedAt|date("m/d/Y")  }}</span>
                                             </div>
-                                            <div class="bg-base-200 h-full w-0.5 mx-2"></div>
+                                            <div class="bg-base-200 h-full w-0.5 mx-1.5 md:mx-2"></div>
                                             <div>
-                                                <span class="font-semibold bg-base-300 px-2 py-1 rounded-md">{{ image.category.name }}</span>
+                                                <span class="font-semibold bg-base-300 px-2 py-0.5 md:py-1 pyy rounded-md">{{ image.category.name }}</span>
                                             </div>
                                         </div>
-                                        <div class="mt-1">
+                                        <div class="md:mt-1">
                                             <div>
                                                 <span class="text-accent-content font-bold text-md">
                                                     {{ image.user.username }}
@@ -53,9 +53,9 @@
                             </div>
                         </div>
                         <div>
-                            <div class="flex h-12 mr-2">
-                                <div class="btn-group">
-                                    <button class="h-full btn text-lg" id="pixel-like" data-image-id="{{ image.uuid }}">
+                            <div class="md:flex md:h-12 md:mr-2">
+                                <div class="md:btn-group md:w-full">
+                                    <button class="h-full block md:inline-block btn md:btn-md btn-xs" id="pixel-like" data-image-id="{{ image.uuid }}">
                                         <span class="text-secondary mr-4">
                                             <i class="fas fa-heart"></i>
                                         </span>
@@ -63,8 +63,8 @@
                                             {{ image.positiveVotes }}
                                         </span>
                                     </button>
-                                    <div class="h-full w-0.5 bg-base-100"></div>
-                                    <button class="h-full btn text-lg" id="pixel-dislike" data-image-id="{{ image.uuid }}">
+                                    <div class="md:block hidden h-full w-0.5 bg-base-100"></div>
+                                    <button class=" h-full block w-full btn border-0 bg-base-content/10 border-1 md:bg-neutral md:border-neutral btn-xs md:w-auto md:btn-md md:mt-0 mt-0.5 md:inline-block" id="pixel-dislike" data-image-id="{{ image.uuid }}">
                                         <i class="fas fa-heart-broken"></i>
                                     </button>
                                 </div>
@@ -75,32 +75,32 @@
                 <div class="bg-base-300">
                     <img class="mx-auto" src="{{ vich_uploader_asset(image) }}">
                 </div>
-                <div class="bg-base-100 p-5">
+                <div class="bg-base-100 p-3 md:p-5">
                     <div>
-                        <div class="form-control w-ful">
+                        <div class="form-control w-full">
                             <label class="label pt-0">
-                                <span class="label-text">Type your comment here !</span>
+                                <span class="label-text md:text-base text-xs">Add your comment !</span>
                                 <span class="label-text">
-                                <span class="mr-1">
+                                <span class="mr-1 md:text-base text-xs">
                                     Comments:
                                 </span>
-                                <span class="text-accent-content font-bold">
+                                <span class="text-accent-content font-bold md:text-base text-xs">
                                     {{ comment_count }}
                                 </span>
                             </span>
                             </label>
-                            {{ form_start(form) }}
-                            <label class="input-group w-full">
+                            {{ form_start(form,{'attr' : {'class' : 'form-controll'}}) }}
+                            <label class="input-group">
                                 {{ form_widget(form.content, {'attr' : {'class' : 'input input-bordered w-full'}}) }}
-                                <button class="btn" type="submit">Add comment</button>
+                                <button class="btn" type="submit">Comment</button>
                             </label>
                             {{ form_end(form) }}
                         </div>
                     </div>
                     {% if comment_count %}
-                        <div class="mt-10">
+                        <div class="mt-5 md:mt-10">
                             <div>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-5">
                                     {% for comment in image.comments %}
                                     <div class="bg-base-200 p-3 rounded-md">
                                         <div class="flex">

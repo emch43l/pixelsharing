@@ -3,18 +3,150 @@
 {% block title %}Hello UserController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="md:px-28 mt-12 md:mt-24">
+        <div>
+            <div>
+                <h1 class="text-2xl md:text-3xl font-extrabold text-accent-content indent-5">
+                    Your profile
+                </h1>
+            </div>
+            <div class="bg-base-100 md:rounded-md mt-4 md:mt-6">
+                <div class="p-5">
+                    <div class="flex justify-between items-center">
+                        <div class="flex">
+                            <div>
+                                <img class="h-16 w-16 md:h-24 md:w-24 rounded-md object-cover" src="{{ asset('build/images/userProfileImage.abac95e5.jpg') }}">
+                            </div>
+                            <div class="w-0.5 md:w-1 bg-base-200 mx-2.5 md:mx-5">
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/EMch43l/Documents/Wprowadzenie do technologii webowych/Projekt/app/src/Controller/UserController.php'|file_link(0) }}">src/Controller/UserController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/EMch43l/Documents/Wprowadzenie do technologii webowych/Projekt/app/templates/user/index.html.twig'|file_link(0) }}">templates/user/index.html.twig</a></code></li>
-    </ul>
-</div>
+                            </div>
+                            <div>
+                                <div>
+                                <span class="text-accent-content font-bold text-base md:text-2xl">
+                                    {{ app.user.username }}
+                                </span>
+                                </div>
+                                <div class="flex py-1 md:py-2 px-2 md:px-4 text-xs md:text-sm md:mt-2 rounded-md bg-base-200">
+                                    <div>
+                                        <div>
+                                        <span>
+                                            Total actions:
+                                        </span>
+                                        </div>
+                                        <div>
+                                        <span>
+                                            Total shares:
+                                        </span>
+                                        </div>
+                                    </div>
+                                    <div class="ml-2 text-accent-content font-bold">
+                                        <div>
+                                        <span>
+                                            {{ app.user.userStatistics.totalActions }}
+                                        </span>
+                                        </div>
+                                        <div>
+                                        <span>
+                                            {{ app.user.userStatistics.totalShares }}
+                                        </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <button class="btn">
+                                    Edit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="mt-12">
+                <h1 class="text-2xl md:text-3xl font-extrabold text-accent-content indent-5">
+                    Your uploads
+                </h1>
+            </div>
+            <div class="mt-4 md:mt-6">
+                {% if paginator.count %}
+                    <div class="overflow-x-auto shadow-xl">
+                        <table class="table w-full md:text-base text-sm">
+                            <thead>
+                            <tr>
+                                <th class="hidden lg:block"></th>
+                                <th>Name</th>
+                                <th>Reactions</th>
+                                <th class="text-center">Upload date</th>
+                                <th class="text-right"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {% for image in paginator.items %}
+                                    <tr>
+                                        <td class="pr-0 hidden lg:table-cell w-24">
+                                            <div>
+                                                <img class="rounded-md h-12 w-12 object-cover" src="{{ vich_uploader_asset(image) }}">
+                                            </div>
+                                        </td>
+                                        <td class="pl-5 lg:pl-0">
+                                            <div>
+                                                <span class="font-bold text-accent-content">
+                                                    {{ image.title }}
+                                                </span>
+                                            </div>
+                                            <div class="mt-1">
+                                                <span class="bg-base-300 px-2 py-1 rounded-md text-sm">
+                                                    {{ image.category.name }}
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="lg:flex">
+                                                <div class="px-5 lg:py-2 lg:bg-base-200 rounded-md">
+                                                    <span class="text-secondary mr-1">
+                                                        <i class="fas fa-heart"></i>
+                                                    </span>
+                                                    <span class="font-bold"> {{ image.positiveVotes }} </span>
+                                                </div>
+                                                <div class="lg:ml-2 px-5 lg:py-2 lg:bg-base-200 rounded-md">
+                                                    <span class="mr-1">
+                                                         <i class="fas fa-heart-broken"></i>
+                                                    </span>
+                                                    <span class="font-bold"> {{ image.negativeVotes }} </span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="text-center">
+                                                <span>
+                                                    {{ image.updatedAt|date('d/m/y') }}
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td class="text-right">
+                                            <a class="btn btn-square" href="{{ path('app_image_edit',{'uuid' : image.uuid}) }}">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <button class="btn btn-square">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="mt-6 pb-6">
+            <div>
+                {{ knp_pagination_render(paginator,'extensions/paginatorFooter.html.twig') }}
+            </div>
+        </div>
+    </div>
 {% endblock %}

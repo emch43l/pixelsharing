@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Repository\UserStatisticsRepository;
+use App\Form\Repository\UserStatisticsRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserStatisticsRepository::class)]

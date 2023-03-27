@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository;
+namespace App\Form\Repository;
 
 use App\Entity\Image;
 use App\Entity\User;
@@ -54,7 +54,7 @@ class VoteRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    public function getUserVotesIds(UserInterface $user) : array
+    public function getUserVotesIds(User $user) : array
     {
         return $this->createQueryBuilder('q')
             ->andWhere('q.User = :user')
