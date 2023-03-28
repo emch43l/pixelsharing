@@ -23,19 +23,28 @@ $(window).on('load', (data) => {
 
 function mobileMenu()
 {
-    let isOpen = $('body[data-menu-open]').data('menu-open');
-    let menu = $('#mobie-menu');
-    let openButton = $('#menu-open-button');
-    let closeButton = $('#menu-close-button');
-    if(openButton == null || openButton == undefined)
+    let menu = $('#modal-mobile-menu');
+    let openButton = $('#mobile-menu-open-button');
+    let closeButton = $('#mobile-menu-close-button');
+
+    if(openButton == null)
         return;
+
+    if($(menu).data('open') === true) {
+        if(!$(menu).hasClass('menu-open')) {
+            $(menu).addClass('menu-open');
+            $(openButton).addClass('menu-open-button-active');
+        }
+    }
 
     openButton.on('click',e => {
         $(menu).addClass('menu-open');
+        $(openButton).addClass('menu-open-button-active');
     });
 
     closeButton.on('click',e => {
         $(menu).removeClass('menu-open');
+        $(openButton).removeClass('menu-open-button-active');
     })
 
 }
