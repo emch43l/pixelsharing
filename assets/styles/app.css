@@ -16,6 +16,11 @@ body
     opacity: 1;
 }
 
+.logo-animation {
+    background-size: 300%;
+    animation: logo-animation 2s linear infinite;
+}
+
 .menu-open-button-active > div > div:nth-child(1)
 {
     top: 0.5rem;
@@ -36,5 +41,17 @@ body
 .menu-open
 {
     display: flex !important;
+}
+
+@keyframes logo-animation {
+    0% {
+        background-position-x: 0px;
+    }
+    50% {
+        background-position-x: 100%;
+    }
+    100% {
+        background-position-x: 0px;
+    }
 }
 
